@@ -1,0 +1,241 @@
+\section{Módulo Diccionario Clientes}
+
+
+\begin{Interfaz}
+  
+  \textbf{parámetros formales}\hangindent=2\parindent\\
+  \parbox{1.7cm}{\textbf{géneros}} $\alpha$\\
+  \parbox[t]{1.7cm}{\textbf{función}}\parbox[t]{\textwidth-2\parindent-1.7cm}{%
+    \InterfazFuncion{Copiar}{\In{a}{$\alpha$}}{$\alpha$}
+    {$res \igobs a$}
+    [$\Theta(copy(a))$]
+    [función de copia de $\alpha$'s]
+  }
+
+  \textbf{se explica con}: \tadNombre{Diccionario($\alpha$,$\sigma$)}, \tadNombre{Iterador Unidireccional(Tupla($\alpha$,$\sigma$))}.
+
+  \textbf{géneros}: \TipoVariable{dictClientes(nat, infoCliente)}, \TipoVariable{itDictClientes(Tupla($\alpha$,$\sigma$))}.
+
+  \textbf{Operaciones básicas de diccionario ordenado}
+
+  \InterfazFuncion{Vacío}{\In{n}{nat}}{dictClientes(nat, infoCliente)}%
+  {$res \igobs vacio$}%
+  [$O(n)$]
+  [genera un diccionario vacío.]
+
+  \InterfazFuncion{Definir}{\Inout{d}{dict(nat, infoCliente)}, \In{c}{nat}, \In{s}{infoCliente}}{}
+  [$d \igobs d_0$]
+  {$d \igobs definir(d_0, c, s)$}
+  [$O(\#claves(d) + copy(c) + copy(s))$]
+  [define la clave $c$ con el significado $s$ en el diccionario.]
+  [los elementos $c$ y $s$ se definen por copia.]
+  
+  \InterfazFuncion{Obtener}{\In{d}{dictClientes(nat, infoCliente)}, \In{c}{nat} }{infoCliente}
+  [def?(c,d)]
+  {esAlias($res$, obtener($c$, $d$))}
+  [$O(log(n))$]
+  [obtiene el significado $\sigma$ que corresponde a la clave $c$.]
+  [se genera aliasing entre $res$ y el significado $\sigma$]
+  
+  ~
+
+  \textbf{Operaciones del iterador}
+
+  \InterfazFuncion{CrearIt}{\In{d}{dicc(nat, infoCliente)}}{itDicc($\alpha$,$\sigma$)}
+  [true]
+  {alias(esPermutacion(SecuSuby(res), d)) $\land$ vacia?(Anteriores(res))}
+  [$\Theta(1)$]
+  [crea un iterador unidireccional del diccionario, de forma tal que HayAnterior evalúe a false (i.e., que se pueda recorrer los elementos aplicando iterativamente Siguiente)]
+  []
+	
+ \InterfazFuncion{HaySiguiente}{\In{it}{itDicc(nat, infoCliente)}}{bool}
+  [true]
+  {res $\igobs$ haySiguiente?(it)}
+  [$\Theta(1)$]
+  [devuelve true si y sólo si en el iterador todavía quedan elementos para avanzar.]
+  []
+
+ \InterfazFuncion{Siguiente}{\In{it}{itDicc(nat,infoCliente)}}{tupla($\alpha$,$\sigma$)}
+  [HaySiguiente?(it)]
+  {alias(res $\igobs$ Siguiente(it))}
+  [$\Theta(1)$]
+  [devuelve el elemento siguiente del iterador.]
+  [res.significado es modificable si y sólo si it es modificable. En cambio, res.clave no es modificable.]
+  
+  \InterfazFuncion{SiguienteClave}{\In{it}{itDicc(nat, infoCliente)}}{nat}
+  [HaySiguiente?(it)]
+  {alias(res $\igobs$ SiguienteClave(it))}
+  [$\Theta(1)$]
+  [devuelve el elemento siguiente del iterador.]
+  [res.significado es modificable si y sólo si it es modificable. En cambio, res.clave no es modificable.]
+  
+  \InterfazFuncion{SiguienteSignificado}{\In{it}{itDicc(nat, infoCliente)}}{infoCliente}
+  [HaySiguiente?(it)]
+  {alias(res $\igobs$ SiguienteSignificado(it))}
+  [$\Theta(1)$]
+  [devuelve el elemento siguiente del iterador.]
+  [res.significado es modificable si y sólo si it es modificable. En cambio, res.clave no es modificable.]
+  
+  \InterfazFuncion{Avanzar}{\In{it}{itDicc(nat, infoCliente)}}{}
+  [HaySiguiente?(it)]
+  {alias(res $\igobs$ Avanzar(it))}
+  [$\Theta(1)$]
+  [devuelve el elemento siguiente del iterador.]
+  [res.significado es modificable si y sólo si it es modificable. En cambio, res.clave no es modificable.]
+
+
+\end{Interfaz}
+
+\begin{Representacion}
+  
+  \textbf{Representación de Diccionario Clientes}
+
+  \begin{Estructura}{dictClientes(nat, infoCliente)}[dc]
+    \begin{Tupla}[dc]
+      \tupItem{claves}{arreglo(nat)}%
+      \tupItem{significados}{arreglo(infoCliente)}%
+      \tupItem{tamanio}{nat}%
+    \end{Tupla}
+  \end{Estructura}
+  
+  \emph{Invariante de representación}
+  
+  \begin{itemize}
+  	\item La capacidad de los contenedores de claves y significados debe ser la misma.
+  	\item dc.tamanio debe indicar la cantidad de entradas en el diccionario y éstas deben estar en las primeras (dc.tamanio-1) primeras posiciones de los respectivos arreglos.
+  	\item El arreglo de claves debe estar ordenado.
+  \end{itemize}
+
+  \Rep[dc][dc]{(tam($dc$.$claves$)) = tam($d$.$significados$)) $\land$\\
+  ($\forall$ $p$, $q$: nat) $p$ < $dc$.$tamanio$ $\impluego$ (definido?($dc$.$claves$, p) $\land$ definido?($dc$.$significados$, p)) $\land$ ($p$ $<$ $q$ $<$ $dc$.$tamanio$ $\Rightarrow$ $dc$.$claves$[$p$] < $dc$.$claves$[$p$])}\mbox{}
+  
+  ~
+ 
+  \Abs[dictClientes({nat, infoCliente})]{dict(nat, infoCliente)}[dc]{d}{($\forall c:\alpha$)(def?($c$, $d$) $\Leftrightarrow$ $c$ $\in$ arregloAConjunto($dc$.$claves$, tam($dc$.$claves$)) $\land$ (def?($c$, $d$) $\Rightarrow$ obtener($d$, $c$) = $dc$.$significados$[posición($dc$.$claves$, 0, $c$)]))}
+  
+  ~
+  
+    \tadOperacion{arregloAConjunto}{arr/arreglo(nat), tamanio/nat}{conj(nat)}{}
+  \tadAxioma{arregloAConjunto(arr, tamanio)}{\IF 0?($tamanio$)  THEN $\emptyset$ ELSE {\IF definido?(arr, tamanio-1) THEN Ag(arr[tamanio-1], arregloAConjunto(arr, tamanio-1) ELSE arregloAConjunto(arr, tamanio-1) FI} FI}
+
+~
+	\tadOperacion{posicion}{arr/arreglo(nat), pos/nat, buscado/nat}{nat}{buscado $\in$ arregloAConjunto(arr, tam(arr))}
+\tadAxioma{posicion(arr, pos, buscado)}{\IF arr[pos] = buscado  THEN pos ELSE posicion(arr, pos+1, buscado) FI}
+  
+  \BlankLine
+  \textbf{Representación del iterador}
+
+  \begin{Estructura}{itDictClientes(nat, infoCliente)}[iter]
+    \begin{Tupla}[iter]
+      \tupItem{posición}{nat}%
+      \tupItem{límite}{nat}%
+      \tupItem{claves}{puntero(arrOrd(nat))}%
+      \tupItem{significados}{puntero(arr(infoCliente))}%
+    \end{Tupla}
+  \end{Estructura}
+
+  \Rep[iter][it]{iter.posición < iter.límite}
+
+  ~
+
+  \Abs[iter]{itUni($\alpha$)}[it]{b}{Siguientes($b$) $=$ arreglosASecuDesde(it.posición, it.límite, it.claves, it.significados)}
+
+  ~
+ 
+\tadOperacion{arreglosASecuDesde}{posición/nat, límite/nat, claves/puntero(arrOrd(nat)), significados/puntero(arrOrd(infoCliente))}{bool}{}
+\tadAxioma{arreglosASecuDesde(posición, límite, claves, significados)}
+{\IF posición = límite THEN 
+	<>
+  ELSE
+  	<claves[posición], significados[posición]> $\bullet$ arreglosASecuDesde(posición+1, límite, claves, significados)
+  FI}
+~
+  
+
+\begin{Algoritmos}
+\\
+\begin{algorithm}[H]
+\textit{i}vacío(\In{n}{nat}) $\longrightarrow$ res: dictClientes(nat, infoCliente)\\
+\BlankLine
+dc.claves $\leftarrow$ crearArreglo(n)\\
+dc.significados $\leftarrow$ crearArreglo(n)\\
+dc.tamanio $\leftarrow$ n\\
+res $\leftarrow$ dc\\
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}definir(\Inout{dc}{dictClientes(nat, infoCliente), \In{c}{nat}, \In{s}{infoCliente}})\\
+\BlankLine
+posActual $\leftarrow$ dc.tamanio\\
+\While{(dc.claves[posActual-1] > c)}{
+		dc.claves[posActual] $\leftarrow$ dc.claves[posActual-1]\\
+		dc.significados[posActual $\leftarrow$ dc.significados[posActual-1]\\
+		posActual--;\\
+}
+dc.claves[posActual] $\leftarrow$ c\\
+dc.significados[posActual] $\leftarrow$ s\\
+dc.tamanio += 1\\
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}obtener(\Inout{dc}{dictClientes(nat, infoCliente), \In{c}{nat}}) $\longrightarrow$ res: infoCliente\\
+\BlankLine
+der $\leftarrow$ dc.tamanio-1\\
+izq $\leftarrow$ 0\\
+medio $\leftarrow$ dc.tamanio/2\\
+\While{dc.clave[medio] != c}{
+	\If{dc.clave[medio] > c}{
+		der $\leftarrow$ medio
+	}
+	\If{dc.clave[medio] < c}{
+		izq $\leftarrow$ medio
+	}
+}
+res $\leftarrow$ dc.significados[medio]\\
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}crearIt(\Inout{dc}{dictClientes(nat, infoCliente))} $\longrightarrow$ res: itDictClientes(nat, infoCliente)\\
+\BlankLine
+it.posicion $\leftarrow$ 0\\
+it.limite $\leftarrow$ tamanio(dc.significados)\\
+it.claves $\leftarrow$ \&(dc.claves)\\
+it.significados $\leftarrow$ \&(dc.significados)\\
+
+res $\leftarrow$ it\\
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}haySiguiente(\In{it}{itDictClientes(nat, infoCliente)}) $\longrightarrow$ res: bool\\
+\BlankLine
+res $\leftarrow$ it.posición < it.límite\\
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}siguiente(\Inout{dc}{itDictClientes(nat, infoCliente)}) $\longrightarrow$ res: tupla(nat, infoCliente)\\
+\BlankLine
+res $\leftarrow$ <*(it.claves[it.posición]), *(it.significados[it.posición])>\\
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}siguienteClave(\Inout{dc}{itDictClientes(nat, infoCliente)}) $\longrightarrow$ res: nat\\
+\BlankLine
+res $\leftarrow$ *(it.claves[it.posición])\\
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}siguienteSignificado(\Inout{dc}{itDictClientes(nat, infoCliente)}) $\longrightarrow$ res: infoCliente\\
+\BlankLine
+res $\leftarrow$ *(it.significados[it.posición])\\
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}avanzar(\Inout{dc}{itDictClientes(nat, infoCliente)})\\
+\BlankLine
+it.posición $\leftarrow$ it.posición + 1\\
+\end{algorithm}
+
+\end{Algoritmos}
+
+
+\end{Representacion}

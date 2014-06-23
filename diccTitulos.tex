@@ -1,0 +1,448 @@
+\section{Módulo Diccionario Títulos }
+%\section{Módulo Diccionario Trie($\alpha$)}
+%Estado: En proceso
+%---------------------------------------------------------------
+%El Tad Títulos se representa con un diccionario de tuplas
+%El Diccionario se representa con Trie.
+%Clave: nombre del título.
+%Significado: Tupla < #maxAcciones, accionesDisponibles, cotización, enAlza >
+%#maxAcciones, accionesDisponibles, cotización son Nat.
+%enAlza es bool.
+%---------------------------------------------------------------
+\SetKw{Orden}{Orden Complejidad:}
+\begin{Interfaz}
+  
+  \textbf{parámetros formales}\hangindent=2\parindent\\
+  \parbox{1.7cm}{\textbf{géneros}} $\alpha$\\
+  \parbox[t]{1.7cm}{\textbf{función}}\parbox[t]{\textwidth-2\parindent-1.7cm}{%
+    \InterfazFuncion{Copiar}{\In{a}{$\alpha$}}{$\alpha$}
+    {$res \igobs a$}
+    [$\Theta(copy(a))$]
+    [función de copia de $\alpha$'s]
+  }
+
+  \textbf{se explica con}: \tadNombre{Diccionario(String, $\alpha$)}.
+
+  \textbf{géneros}: \TipoVariable{diccTítulo($String$,$\alpha$)}, \TipoVariable{itDicc$(\alpha)$}.
+
+  \Title{Operaciones básicas de diccionario títulos}
+
+  \InterfazFuncion{NuevoDiccionario}{}{diccTítulo($String$,$\alpha$)}%
+  {$res \igobs$ vacio()}%
+  [$\Theta(1)$]
+  [Crea un nuevo diccionario vacío.]
+  
+  \InterfazFuncion{Definir}{\In{c}{string}, \In{s}{$\alpha$}, \Inout{d}{diccTítulo($String$,$\alpha$)}}{}
+  [$d$ $\igobs$ $d_{0}$]
+  {$d$ $\igobs$ definir($d_{0}$, $c$, $s$)}
+  [$\Theta(|c| + copy(s))$]
+  [Define la clave $c$ con el significado $s$ en el diccionario $d$.]
+  [Se agrega por copia el significado $s$] 
+
+  \InterfazFuncion{Obtener}{\In{c}{string}, \In{d}{diccTítulo($String$,$\alpha$)}}{$\alpha$}
+  [def?($c$, $d$)]
+  {$res$ $\igobs$ obtener($c$, $d$)}
+  [$\Theta(|c|)$]
+  [Devuelve el significado de la clave $c$ contenida en el diccionario $d$.]
+  []
+  
+  \InterfazFuncion{Definido?}{\In{c}{string}, \In{d}{diccTítulo($String$,$\alpha$)}}{$bool$}
+  {$res$ $\igobs$ def?($c$, $d$)}
+  [$\Theta(|c|)$]
+  [Chequea si está definida la clave $c$ en el diccionario $d$.]
+  []
+
+  \InterfazFuncion{\#Claves}{\In{d}{diccTítulo($String$,$\alpha$)}}{nat}
+  {$res$ $\igobs$ \#(claves($d$))}
+  [$\Theta(1)$]
+  [Devuelve la cantidad de claves del diccionario.]
+  
+%----------------------------------------------------------
+% Operaciones del Iterador
+% Idem a las de diccionario lineal del apunte de modulos básicos
+% Iteramos como si fuera un diccionario lineal O(1)
+% Buscamos y obtenemos utilizando la estructura trie O(|c|)
+
+  \Title{Operaciones del iterador}
+  \InterfazFuncion{CrearIt}{\In{d}{diccTítulo($String$,$\alpha$)}}{itDicc($String$,$\alpha$)}
+  {$res$ $\igobs$ < crearItUni(<>,$d$.claves), crearItUni(<>,$d$.alfas)>}
+  [$\Theta(1)$]
+  [Crea un iterador unidireccional del diccionario. Se pueden recorrer los elementos aplicando iterativamente Siguiente]
+  % bidireccional del diccionario, de forma tal que $\NombreFuncion{HayAnterior}$ evalúe a $\ensuremath{\mathit{false}}$ (ie. que se pueda recorrer los elementos aplicando iterativamente $\NombreFuncion{Siguiente}$).]
+  
+  \InterfazFuncion{HaySiguiente?}{\In{it}{itDicc($String$,$\alpha$)}}{bool}
+  {$res$ $\igobs$ haySiguiente?($it$)}
+  [$\Theta(1)$]
+  [Devuelve true si y sólo si en el iterador todavía quedan elementos para avanzar]
+    
+  %\InterfazFuncion{Actual}{\In{it}{itDicc$(\alpha)$}}{String}
+  %[HaySiguiente?($it$)]
+  %{alias($res$ $\igobs$ Actual($it$)}
+  %%{alias($res$ $\igobs$ Siguiente($it$))}
+  %[$\Theta(1)$]
+  %[Devuelve el elemento actual del iterador (tupla: clave - puntero a significado)]
+  %%[La clave no es modificable]
+
+  %\InterfazFuncion{ActualClave}{\In{it}{itDicc$(\alpha)$}}{String}
+  %[HaySiguiente?($it$)]
+  %{alias($res$ $\igobs$ $\prod_1$(Actual($it$))}
+  %%{alias($res$ $\igobs$ Siguiente($it$))}
+  %[$\Theta(1)$]
+  %[Devuelve la clave actual del iterador]
+  %%[La clave no es modificable]
+
+  %\InterfazFuncion{ActualSignificado}{\In{it}{itDicc$(\alpha)$}}{$\alpha$}
+  %[HaySiguiente?($it$)]
+  %{alias($res$ $\igobs$ $\prod_2$(Actual($it$))}
+  %%{alias($res$ $\igobs$ Siguiente($it$))}
+  %[$\Theta(1)$]
+  %[Devuelve el significado actual del iterador]
+
+  \InterfazFuncion{Siguiente}{\In{it}{itDicc($String$,$\alpha$)}}{tupla($String$, $\alpha$)}
+  [HaySiguiente?($it$)]
+  {alias($res$ $\igobs$ Siguiente($it$))}
+  [$\Theta(1)$]
+  [Devuelve el elemento siguiente del iterador]
+  [$res$.significado es un puntero al objeto $\alpha$ y es modificable si y sólo si $it$ es modificable. En cambio, $res$.clave no es modificable] 
+
+  \InterfazFuncion{SiguienteClave}{\In{it}{itDicc($String$,$\alpha$)}}{String}
+  [HaySiguiente?($it$)]
+  {alias($res$ $\igobs$ Siguiente($it$).clave)}
+  [$\Theta(1)$]
+  [Devuelve la clave del elemento siguiente del iterador]
+  [$res$ no es modificable] %PREGUNTAR!!!
+
+  \InterfazFuncion{SiguienteSignificado}{\In{it}{itDicc($String$,$\alpha$)}}{$\alpha$}
+  [HaySiguiente?($it$)]
+  {alias($res$ $\igobs$ Siguiente($it$))}
+  [$\Theta(1)$]
+  [Devuelve el significado del elemento siguiente del iterador]
+  [$res$ es modificable si y sólo si $it$ es modificable]
+  
+  \InterfazFuncion{Avanzar}{\Inout{it}{itDicc($String$,$\alpha$)}}{}
+  [$it = it_0$ $\land$ HaySiguiente?($it$)]
+  {$it$ $\igobs$ Avanzar($it_0$)}
+  [$\Theta(1)$]
+  [Avanza a la posición siguiente del iterador]
+  
+  
+\end{Interfaz}
+
+\begin{Representacion}\\
+\tab\textbf{Representación del diccionario:}
+  \begin{Estructura}{diccTítulo($String$, $\alpha$)}[estr\_diccTítulo]
+    \begin{Tupla}[estr\_diccTítulo]
+      \tupItem{raíz}{estr\_nodo}
+      \tupItem{Claves}{lista($\texttt String$)}
+      \tupItem{alfas}{lista(punteros($\alpha$))}
+    \end{Tupla}
+   
+    \begin{Tupla}[estr\_nodo]
+      \tupItem{significado}{puntero $(\alpha)$}
+      \tupItem{hijos}{array[256] de puntero(estr\_nodo)}%
+    \end{Tupla}
+  \end{Estructura}
+
+%	\begin{Tupla}[estr\_iter]
+%		\tupItem{clave}{STRING}%
+%		\tupItem{significado}{puntero $(\alpha)$}
+%   \end{Tupla}
+
+ \textbf{Invariante de representación:}
+ \begin{enumerate}
+% 	\item Sin nodos repetidos
+    \item Sin ciclos en el arbol
+    \item Las Hojas no pueden tener significado nulo
+    \item La cantidad de claves ingresadas en e.claves debe ser igual a la cantidad de significados válidos (distintos de NULL) del árbol Trie y a la cantidad de punteros ingresados en e.alfas
+    \item Las claves contenidas en $e$.claves deben estar definidas en el arbol Trie
+    \item Todos los punteros de significados válidos del arbol Trie deben estar definidos en $e$.alfas 
+ \end{enumerate}
+
+\end{Representacion}
+
+\Rep[estr\_diccTítulo][e]{ \\
+    SinCiclos($e$.raíz, $\emptyset$) $\yluego$ \hfill 1. \\
+  %  NoHayRepetidos(NodoAsecu($e$.raíz)) $\land$ \hfill 2. \\
+    SignificadosHojasNotNull($e$.raíz) $\land$ \hfill 2. \\
+    \TipoVariable {Longitud($e$.Claves)} $\igobs$ \TipoVariable {Longitud($e$.alfas)} $\land$ \\
+    \TipoVariable {Longitud($e$.alfas)} $\igobs$ CantidadSignificados($e$.raíz) $\land$ \hfill 3. \\
+    ($\forall clave:String$) ((está?($clave$, $e$.claves)) $\Leftrightarrow$ definido?($clave$,$e$.raíz)  ) $\land$ \hfill 4.\\
+    ($\forall p: puntero(\alpha$) (está?($p$, $e$.alfas)) $\Rightarrow$ ($\exists\ clave: String$) está?($clave$,$e$.claves) $\land$ \\
+    \tab p = ObtDeEstruc($clave$, $e$.raíz))  \hfill 5.   \\ 
+   % ($\forall clave: String$ (está?($clave$, $e$.claves) $\Rightarrow$ ($\exists\ p: puntero(\alpha$)) está?($p$,$e$.alfas) $\land$ \\
+    %\tab p = ObtDeEstruc($clave$, $e$.raíz)) \hfill 5.b  \\ 
+  }
+%Axiomatizacion del Rep
+%\tadOperacion{NodoAsecu}{estr\_nodo/e}{secu(estr\_nodo)}{SinCiclos($e$, $\emptyset$)}
+%\tadAxioma{NodoAsecu($e$)}{\secuencia{$e$} \& NodoAsecuHijos($e$,0)}
+
+%\tadOperacion{NodoAsecuHijos}{estr\_nodo/e,nat}{secu(estr\_nodo)}{SinCiclos($e$, $\emptyset$)}
+%\tadAxioma{NodoAsecuHijos($e$, $n$)}{
+%	{(\IF e.hijos[$n$] $\igobs$ NULL THEN \secuencia{}
+%      ELSE 
+%      	NodoAsecuHijos(*(e.hijos[$n$])) 
+%     FI)} \& \\
+%    {(\IF $n < $ 255 THEN NodoAsecuHijos($e$,$n +$ 1)
+%      ELSE
+%      	\secuencia{}
+%      FI)}     
+%     }
+
+%\tadOperacion{NohayRepetidos}{secu(estr\_nodo)}{bool}{}
+%\tadAxioma{NoHayRepetidos($sn$)}
+%{\IF vacía?($sn$) THEN true 
+%  ELSE 
+%	$\neg$(está?(prim($sn$), fin($sn$))) $\land$ NoHayRepetidos(fin($sn$))
+%  FI}
+ ~
+\tadOperacion{SignificadoHojaNotNull}{estr\_nodo/e}{bool}{}
+\tadAxioma{SignificadoHojaNotNull}
+{\IF Hoja?($e$, 0) THEN 
+	$\neg$(significado($e$)$\igobs$ NULL)
+  ELSE
+  	RecorrerHijos($e$,0)
+  FI}
+\tadOperacion{Hoja?}{estr\_nodo/e, nat}{bool}{}
+\tadAxioma{Hoja?($e$,$n$)}
+{($e$.hijos[$n$] $\igobs$ NULL) $\land$
+\IF ($n$ < 256) THEN
+	Hoja?($e$,$n$+1)
+ELSE
+	true
+FI}
+
+~
+
+\tadOperacion{RecorrerHijos}{estr\_nodo/e, nat}{bool}{SinCiclos($e$,0)}
+\tadAxioma{RecorrerHijos($e$,$n$)}
+{(\IF ($\neg$($e$.hijos[$n$] $\igobs$ NULL)) THEN
+	SignificadoHojaNotNull(*(e.hijos[$n$]))
+  ELSE
+   true
+  FI) $\land$
+	({\IF ($n$ < 256) THEN 
+		RecorrerHijos($e$,$n$+1)
+	ELSE
+		true
+	FI)}
+FI}
+
+\tadOperacion{CantSignificados}{estr\_nodo/$e$}{nat}{}
+\tadAxioma{CantSignificados($e$)}
+{(\IF ($e$.significado $\igobs$ NULL) THEN
+	0
+ELSE
+	1
+FI) + SigHijos(e,0)}
+
+\tadOperacion{SigHijos}{estr\_nodo/$e$, nat}{nat}{}
+\tadAxioma{SigHijos($e$,$n$)}
+{(\IF ($e$.hijos[$n$] $\igobs$ NULL) THEN
+	0
+ELSE
+	CantSignificados(*($e$.hijos[$n$]))
+FI) + (\IF ($n$ < 256) THEN
+	SigHijos($e$,$n$+1)
+ELSE
+	0
+FI)}
+
+%Abstraccion DICTIONARIO
+\textbf{Función de abstracción:}
+\Abs[estr\_diccTítulo]{dicc(string, $\alpha$)}[e]{d}{
+    \#(claves($d$)) $\igobs$ \TipoVariable {Longitud($e$.clave)} $\yluego$ \hfill 1. \\
+    ($\forall c$: string)(def?($c$, $d$) $\impluego$  \hfill 2. \\
+       $\tab$ (definido?($c$, $e$.raíz) $\yluego$  \\
+       $\tab \tab$ obtener($c$, $d$) $\igobs$ *(ObtDeEstruc($c$, $e$.raíz)) )
+    )
+}
+
+\tadOperacion{definido?}{string/e, estr\_nodo/$e$}{$bool$}{}
+\tadAxioma{definido?($c$,$n$)}
+{\IF vacía?($c$) THEN
+	$\neg$(n.significado = NULL)
+ELSE
+	{\IF n.hijos[ORD(prim(c)] = NULL THEN false 
+    ELSE 
+    	definido?(fin($c$),$n$.hijos[ORD(prim($c$))]    
+    FI}
+FI}
+ 
+\tadOperacion{ObtDeEstruc}{string/$ e$, estr\_nodo/$e$}{$\alpha$}{}
+\tadAxioma{ObtDeEstruc($c$,$n$)}
+{\IF vacía?($c$) THEN
+	n.significado
+ELSE
+	{\IF n.hijos[ORD(prim(c)] = NULL THEN NULL 
+    ELSE 
+    	ObtDeEstruc(fin($c$),$n$.hijos[ORD(prim($c$))]    
+    FI}
+FI}
+
+%REPresentacion iterador
+ \textbf{Representación del iterador:}\\ \tab
+ El iterador del diccionario es simplemente un par de iteradores a las listas correspondientes.\\\tab Lo único que hay que pedir es que satisfaga el Rep de este par de listas.\\\tab Por implementación, alcanza con que sea unidireccional. 
+ 	\begin{Estructura}{itDiccTítulos($String$,$\alpha$)}[itDic]
+    \begin{Tupla}[itDic]
+		\tupItem{claves}{itLista($String$)}
+		\tupItem{significados}{itLista($\alpha$)}%
+    \end{Tupla}
+ 	\end{Estructura}
+
+%PREGUNTAR!!!!
+\Rep[itDic][it]{ \\
+	Rep(it.claves) $\land$ Rep(it.significados)
+  }
+Abs : itDic $it$ $\longrightarrow$ itMod(tupla($String$,$\alpha$)) \hfill\{Rep($it$)\}\\ \hspace*{4mm}
+%Abs($it$) $\equiv$ CrearIt(Join(Anteriores(it.claves), Anteriores(it.significados)), \\\hspace*{38mm}Join(Siguientes(it.claves), Siguientes(it.significados)))
+Abs($it$) $\equiv$ CrearItMod(Join(Siguientes(it.claves), Siguientes(it.significados)))
+
+\tadAlinearAxiomas{Join($a$,$b$)}
+\tadOperacion{Join}{secu($String$) $a$, secu($\alpha$) $b$}{secu(tupla($String$,$\alpha$))}{long($a$) = long($b$)}
+\tadAxioma{Join($a$,$b$)}
+	{\IF vacía?(a) THEN 
+		<>
+	ELSE 
+		<prim(a), prim(b)> $\bullet$ Join(Fin($a$), Fin($b$))
+	FI}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%ALGORITMOS
+\begin{Algoritmos}
+ \incmargin{1em}
+    %\linesnumbered
+   %\restylealgo{boxed}
+    \dontprintsemicolon
+\\
+%NuevoDiccionario
+\tab\textit{i}NuevoDiccionario() $\longrightarrow$ res: bool\\
+\hspace*{9mm}\Orden{O(1)}\\
+\begin{algorithm}[H]
+%\BlankLine
+	res $\leftarrow$ <raíz: iNodoNuevo(), Claves : Vacía(), Alfas : Vacía() > \tcp*{O(1)}
+\end{algorithm}
+
+%Nodo Nuevo
+\textit{i}NodoNuevo() $\longrightarrow$ res: estr\_nodo\\
+\hspace*{9mm}\Orden{O(1)}\\
+\begin{algorithm}[H]
+%\BlankLine
+	res $\leftarrow$ <significado: NULL, hijos:CrearArreglo() > \tcp*{O(1)}
+	\For{var $i : nat\leftarrow 0$ \KwTo $255$\tcp*{O(256)}}{
+		res.hijos[i] $\leftarrow$ NULL 
+	}
+\end{algorithm}
+
+%Definir
+\textit{i}Definir(\In{c}{string}, \In{s}{$\alpha$}, \Inout{d}{estr\_diccTítulo}) $\longrightarrow$ res: estr\_dicTrie\\
+\hspace*{9mm}\Orden{O(|c|)}\\
+\begin{algorithm}[H]
+	AgregarAtrás(d.$Claves$, c) \tcp*{O(|c|)}
+	var $actual$ : \TipoVariable{puntero($estr\_nodo$)} $\leftarrow$ \&($d$.raíz) \tcp*{O( 1 )}
+	\For{var $i : nat\leftarrow 0$ \KwTo (Longitud($c$) - 1)\tcp*{O(|c|)}}{ 
+		\If{actual $\rightarrow$ hijos[ORD(c[i])] = NULL}{
+			actual $\rightarrow$ hijos[ORD(c[i])] $\leftarrow$ $\&$(iNodoNuevo())
+		}
+		actual $\leftarrow$ (actual $\rightarrow$ hijos[ORD(c[i])])
+	}
+	actual $\rightarrow$ significado $\leftarrow \&$(Copiar($s$))\tcp*{O( 1 )} 
+	AgregarAtrás(d.$alfas$, actual $\rightarrow$ significado) \tcp*{O( 1 )}
+	%d.$\#$claves $\leftarrow$ d.$\#$claves + 1 
+\end{algorithm}
+
+%Obtener
+\textit{i}Obtener(\In{c}{string}, \In{d}{estr\_diccTítulo}) $\longrightarrow$ res:$\alpha$ \\
+\hspace*{9mm}\Orden{O(|c|)}\\
+\begin{algorithm}[H]
+%\BlankLine
+	var $actual$ : \TipoVariable{puntero($estr\_nodo$)} $\leftarrow$ \&($d$.raíz)\tcp*{O( 1 )}
+	\For{var $i : nat\leftarrow 0$ \KwTo (Longitud($c$) - 1)\tcp*{O(|c|)}}{
+		actual $\leftarrow$ (actual $\rightarrow$ hijos[ORD(c[i])])
+	}
+	res $\leftarrow$ * (actual $\rightarrow$ significado)\tcp*{O( 1 )} 
+\end{algorithm}
+
+%Definido
+% Ejemplo: Si esta definido CASA
+% Casos: 
+%	1 - puede estar definido CASAS pero no CASA -> Significado en CASA = NULL al salir del while
+%	2 - puede estar definido CAS o algo menor a CASA:  actual -> NULL al salir del while
+%	3 - pueden estar definido CASA y CASAS: sale del while por i < longitud(c), no podemos chequear solo que actual != NULL 
+%	4 - No puedo pedir actual->significado sin antes verificar que actual no apunte a NULL 
+
+\textit{i}Definido?(\In{c}{string}, \In{d}{estr\_diccTítulo})$\longrightarrow$ res: bool \\
+\hspace*{9mm}\Orden{O(|c|)}\\
+\begin{algorithm}[H]
+%\BlankLine
+	var $actual$ : \TipoVariable{puntero($estr\_nodo$)} $\leftarrow$ \&($d$.raíz) \tcp*{O( 1 )}
+	var i : \TipoVariable{Nat} $\leftarrow$ $0$ \tcp*{O( 1 )}
+	\While{ $actual$ != NULL $\&\&$  ($i$ < Longitud($c$))\tcp*{O(|c|)}}{
+		$i$ $\leftarrow$ $i$ + 1 \\
+		actual $\leftarrow$ (actual $\rightarrow$ hijos[ORD(c[i])])
+	}
+	\eIf{($actual$ != NULL)}{
+		\eIf{($actual$ $\rightarrow$ significado) != NULL}{
+			res $\leftarrow$ $true$\tcp*{O( 1 )}
+		}{
+			res $\leftarrow$ $false$\tcp*{O( 1 )}
+		}
+	}{
+		res $\leftarrow$ $false$\tcp*{O( 1 )}
+	}
+
+\end{algorithm}
+
+%Cantidad de Claves
+\textit{i}$\#$Claves(\In{d}{estr\_diccTítulo})$\longrightarrow$ res: nat\\
+\hspace*{9mm}\Orden{O(1)}\\
+\begin{algorithm}[H]
+%\BlankLine
+	res $\leftarrow$ Longitud($d$.Claves)\tcp*{O( 1 )}
+\end{algorithm}
+
+\textbf {Algoritmos del iterador}
+
+\textit{i}CrearIT(in d: diccTítulo($String$,$\alpha$)) $\longrightarrow$ res: ItDicc($String$,$\alpha$)\\
+\hspace*{9mm}\Orden{O(1)}\\
+\begin{algorithm}[H]
+\BlankLine
+res $\leftarrow$ <claves:CrearIt($d$.claves), significados: CrearIt($d$.alfas)>
+\end{algorithm}
+
+\textit{i}HaySiguiente?(in it: ItDicc($String$,$\alpha$)) $\longrightarrow$ res: bool\\
+\hspace*{9mm}\Orden{O(1)}\\
+\begin{algorithm}[H]
+\BlankLine
+res $\leftarrow$ HaySiguiente(it.claves)
+\end{algorithm}
+
+\textit{i}Siguiente(in it: ItDicc($String$,$\alpha$)) $\longrightarrow$ res: tupla($String$, $\alpha$)\\
+\hspace*{9mm}\Orden{O(1)}\\
+\begin{algorithm}[H]
+\BlankLine
+res $\leftarrow$ <Siguiente(it.claves), Siguiente(it.significados) >
+\end{algorithm}
+
+\textit{i}SiguienteClave(in it: ItDicc($String$,$\alpha$)) $\longrightarrow$ res: $String$\\
+\hspace*{9mm}\Orden{O(1)}\\
+\begin{algorithm}[H]
+\BlankLine
+res $\leftarrow$ Siguiente(it.claves)
+\end{algorithm}
+
+\textit{i}SiguienteSignificado(in it: ItDicc($String$,$\alpha$)) $\longrightarrow$ res: puntero($\alpha$)\\
+\hspace*{9mm}\Orden{O(1)}\\
+\begin{algorithm}[H]
+\BlankLine
+res $\leftarrow$ Siguiente(it.significados)
+\end{algorithm}
+
+\textit{i}Avanzar(in it: ItDicc($String$,$\alpha$)) $\longrightarrow$  res: ItDicc($String$,$\alpha$)\\
+\hspace*{9mm}\Orden{O(1)}\\
+\begin{algorithm}[H]
+\BlankLine
+res $\leftarrow$ <Avanzar(it.claves), Avanzar(it.significados) >
+\end{algorithm}
+
+\end{Algoritmos}

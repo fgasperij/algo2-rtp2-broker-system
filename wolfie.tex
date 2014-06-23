@@ -1,0 +1,530 @@
+\section{Módulo Wolfie}
+
+
+\begin{Interfaz}
+  
+  \textbf{parámetros formales}\hangindent=2\parindent\\
+  \parbox{1.7cm}{\textbf{géneros}} $\alpha$\\
+  \parbox[t]{1.7cm}{\textbf{función}}\parbox[t]{\textwidth-2\parindent-1.7cm}{%
+    \InterfazFuncion{Copiar}{\In{a}{$\alpha$}}{$\alpha$}
+    {$res \igobs a$}
+    [$\Theta(copy(a))$]
+    [función de copia de $\alpha$'s]
+  }
+
+  \textbf{se explica con}: \tadNombre{Wolfie}.
+
+  \textbf{géneros}: \TipoVariable{wolfie}.
+
+  \textbf{Operaciones básicas de Wolfie}
+
+  \InterfazFuncion{InaugurarWolfie}{\In{clientes}{conj(clientes)}}{wolfie}
+  [$\neg \emptyset ?(clientes)$]
+  {$res \igobs inaugurarWolfie(clientes)$}%
+  [$O(\#(clientes)^2)$]
+  [genera un wolfie con los clientes recibidos en $clientes$.]
+
+  \InterfazFuncion{AgregarTítulo}{\Inout{w}{wolfie}, \In{nomTit}{string}, \In{maxAcciones}{nat}, \In{cot}{nat}}{}
+  [$w \igobs w_0$ $\land$  ($\forall$ $t$ : $titulo$) ($t \in$ títulos($w_0$) $\Rightarrow$ nombre($t$) $\neq$ nomTit) ]
+  {$w \igobs$ agregarTítulo(crearTítulo($nomTit$, $cot$, $maxAcciones$), $w_0$)}
+  [$\Theta(copy(a))$]
+  [agrega un título a $w$ con el nombre $nt$, la cotización $cotizacion$ y un tope máximo de acciones $maxAcciones$.]
+  
+  \InterfazFuncion{ActualizarCotización}{\Inout{w}{wolfie}, \In{nomTit}{string}, \In{cot}{nat}}{}
+  [$w \igobs w_0$ $\land$ ($\exists$ $t$:$titulo$) ($t \in$ títulos($w_0$) $\land$ nombre($t$) $=$ nomTit)]
+  {$w \igobs$ actualizarCotización($nomTit$, $cot$, $w_0$)}
+  [$\Theta(copy(a))$]
+  [actualiza la cotización del título cuyo nombre es $nt$ a la cotización $cotizacion$ y ejecuta las promesas de venta y compra que puedan hacerse dada la nueva cotización del título.]
+  
+  \InterfazFuncion{AgregarPromesa}{\Inout{w}{wolfie}, \In{cliente}{cliente}, \In{nomTit}{string}, \In{tipo}{string}, \In{umbral}{nat}, \In{cantidad}{nat}}{}
+  [$w \igobs w_0$ $\land$ ($\exists$ t:título) ($t$ $\in$ títulos($w_0$)
+  $\land$ nombre($t$) = nomTit) $\land$ $c$ $\in$ clientes($w_0$) $\yluego$
+  ($\forall p:promesa$)($p \in$ promesasDe($c$, $w_0$) $\Rightarrow$
+  ($nomTit$ $\neq$ título($p$) $\lor$ $tipo$ $\neq$ tipo($p$)) $\land$ (tipo = vender $\Rightarrow$ accionesPorCliente($c$, título($p$)) $\geq$ cantidad($p$)))
+  ]
+  {$w \igobs$ agregarPromesa($c$, crearPromesa($nomTit$, $tipo$, $umbral$, $cantidad$), $w_0$)}
+  [$\Theta(copy(a))$]
+  [agrega una promesa de tipo $tipo$ al cliente $c$ sobre el título cuyo nombre sea $nomTit$.]    
+  
+  \InterfazFuncion{clientes}{\In{w}{wolfie}}{itDiccClientes(nat, infoCliente)}
+  [$true$]
+  {haySiguiente($res$) $\land$ esPermutación(SecuSuby($res$), clientes($w$))}
+  [$\Theta(copy(a))$]
+  [devuelva un iterador a el diccionario de clientes.]
+  
+  \InterfazFuncion{títulos}{\In{w}{wolfie}}{itDiccTítulos(string, infoTitulo)}
+  [$true$]
+  {haySiguiente($res$) $\land$ esPermutación(SecuSuby($res$), títulos($w$))}
+  [$\Theta(copy(a))$]
+  [devuelva un iterador a el diccionario de títulos.]
+  
+  \InterfazFuncion{promesasDe}{\In{w}{wolfie}, \In{c}{cliente}}{itLst(promesasTítulo)}
+  [$c$ $\in$ clientes($w$)]
+  {$res \igobs$ promesasDe($c$, $w$)}
+  [$\Theta(copy(a))$]
+  [devuelve todas las promesas del cliente $c$.]
+  
+  \InterfazFuncion{accionesPorCliente}{\In{w}{wolfie}, \In{nomTit}{string}, \In{cliente}{c}}{nat}
+  [$c$ $\in$ clientes($w$) $\land$ ($\exists t:t\'itulo$)($t \in$ títulos($w$) $\land$ nombre($t$) = $nomTit$)]
+  {$res \igobs$ accionesPorCliente($c$, $nomTit$, $w$)}
+  [$\Theta(copy(a))$]
+  [devuelve la cantidad de acciones que tiene el cliente $c$ del título cuyo nombre es $nomTit$.]
+  
+  \InterfazFuncion{enAlza}{\In{w}{wolfie}, \In{nomTit}{string}}{bool}
+  [($\exists t:título$)($t \in$ títulos($w$) $\land$ nombre($t$) = $nomTit$)]
+  {$res \igobs$ enAlza($nomTit$, $w$)}
+  [$\Theta(copy(a))$]
+  [devuelve $true$ si el título acaba de agregarse a Wolfie o si la cotización actual es mayor a la anterior.]
+ 
+\end{Interfaz}
+
+\begin{Representacion}
+  
+  \textbf{Representación de Wolfie}
+
+  \begin{Estructura}{$wolfie$}[wolfieEstr]
+    \begin{Tupla}[wolfieEstr]
+      \tupItem{clientes}{DiccionarioClientes(cliente, infoCliente)}%
+      \tupItem{títulos}{DiccionarioTítulos(nombre, infoTítulo)}%
+      \tupItem{promesasDe}{infoPromesas}%
+    \end{Tupla}
+    
+    \begin{Tupla}[infoPromesas]
+      \tupItem{cliente}{nat}%
+      \tupItem{actualizado}{bool}%
+      \tupItem{promesas}{lst(promesaTítulo)}%      
+    \end{Tupla}
+    
+    \begin{Tupla}[promesaTítulo]
+      \tupItem{nomTit}{string}%
+      \tupItem{tipo}{string}%
+      \tupItem{umbral}{nat}%
+      \tupItem{cantidad}{nat}%
+    \end{Tupla}
+    
+    \begin{Tupla}[infoTítulo]
+      \tupItem{maxAcciones}{nat}%
+      \tupItem{accionesDisponibles}{nat}%
+      \tupItem{cotización}{nat}%
+      \tupItem{enAlza}{bool}%
+    \end{Tupla}
+
+    \begin{Tupla}[infoCliente]    
+      \tupItem{títulos}{DiccionarioTítulos(nombre, infoTítuloCliente)}
+      \tupItem{totalAcciones}{nat}%      
+    \end{Tupla}
+    
+    \begin{Tupla}[infoTítuloCliente]
+      \tupItem{cantidadAcciones}{nat}%
+      \tupItem{promesas}{promesas}%
+    \end{Tupla}
+    
+    \begin{Tupla}[promesas]      
+      \tupItem{compra}{promesa}
+      \tupItem{venta}{promesa}%            
+    \end{Tupla}
+    
+    \begin{Tupla}[promesa]
+   	  \tupItem{pendiente}{bool}%
+      \tupItem{umbral}{nat}%
+      \tupItem{cantidad}{nat}%            
+    \end{Tupla}
+    
+    \par donde cliente es nat
+        
+  \end{Estructura}
+  \textbf{Invariante de representación}\\* \\* Entre wolfieEstr.clientes y wolfieEstr.Títulos:
+ \begin{enumerate}
+ 	\item Todos los títulos que están definidos en los infoCliente.títulos también están definidos en el wolfieEstr.títulos.\\
+    ($\forall claveCliente:cliente$) (def?($claveCliente$, $w$.$clientes$) $\Rightarrow$ ($\forall nomTit:titulo$)\\ (def?($nomTit$, dameTítulos($claveCliente$, $w$.$clientes$)) $\Rightarrow$ def?($nomTit$, $w$.$titulos$)))
+    \item Para cada título definido en wolfieEstr.títulos el infoTítulo.accionesDisponibles es igual a la resta entre: infoTítulo.maxAcciones y la suma de la cantidad de acciones de ese título que tienen todos los clientes, es decir, la suma de los infoTítuloCliente.cantidadAcciones que se correspondan con el nombre del título que estamos calculando de todos los clientes.\\
+    ($\forall nomTit:string$) (def?($nomTit$, $w$.$titulos$) $\Rightarrow$ dameDisponibles($nomTit$, $w$.$titulos$) = \\dameMaxAcciones($nomTit$, $w$.$titulos$) - sumatoriaAccionesTítulo($t$, $w$.$clientes$))
+    
+ \end{enumerate}
+ Adentro de wolfieEstr.títulos:
+ \begin{enumerate}
+ 	\item accionesDisponibles no puede ser mayor a maxAcciones.\\
+    ($\forall nomTit:titulo$) (def?($nomTit$, $w$.$titulos$) $\Rightarrow$ cantidadMáximaAcciones($nomTit$, $w.titulos$) $\ge$\\ accionesDisponibles($nomTit$, $w.titulos$))
+ \end{enumerate}
+\BlankLine
+Adentro de wolfieEstr.clientes:
+ \begin{enumerate}
+ 	\item En cada infoCliente el totalAcciones tiene que ser igual a la suma de cantidadAcciones de todos los títulos definidos en infoCliente.títulos.\\
+    ($\forall claveCliente:cliente$) (def?($claveCliente$, $w$.$clientes$) $\Rightarrow$ totalAcciones($claveCliente$, $w$.$clientes$) = \\ sumatoriaCantidadAcciones(dameTítulos($claveCliente$, $w$.$clientes$))
+    \item En todas las entradas de infoTítuloCliente si promesas.venta.pendiente es verdadero entonces promesas.venta.cantidad tiene que ser menor o igual a el infoTítuloCliente.cantidadAcciones.\\
+($\forall claveCliente:cliente$) (def?($claveCliente$, $w$.$clientes$) $\Rightarrow$ ($\forall nomTit:titulo$)\\ (def?($nomTit$, dameTítulos($claveCliente$, $w$.$clientes$)) $\Rightarrow$\\ cantidadPrometidasVenta(obtener($nomTit$, dameTítulos($claveCliente$, $w$.$clientes$)) $\leq$\\cantidadAcciones(obtener($nomTit$, dameTítulos($claveCliente$, $w$.$clientes$))
+ \end{enumerate}
+ Adentro de wolfieEstr.promesasDe cuando promesasDe.actualizado sea verdadero:
+ \begin{enumerate}
+ 	\item no puede haber más de una promesa de compra sobre cada título\\
+    wolfieEstr.promesasDe.actualizado $\Rightarrow$ ($\forall nomTit:string$)\\ (cantidadDeCompra(wolfieEstr.promesasDe.promesas, nomTit) = 1)
+    \item no puede haber más de una promesa de venta sobre cada título\\
+    wolfieEstr.promesasDe.actualizado $\Rightarrow$ ($\forall nomTit:string$)\\(cantidadDeVenta(wolfieEstr.promesasDe.promesas, nomTit) = 1)
+ \end{enumerate}
+
+ Entre wolfieEstr.promesasDe y wolfieEstr.clientes cuando wolfieEstr.promesasDe.actualizado sea verdadero:
+ \begin{enumerate}
+ 	\item promesasDe.cliente pertenece a los clientes de wolfie.\\
+    wolfieEstr.promesasDe.actualizado $\Rightarrow$ def?(wolfieEstr.clientes, promesasDe.cliente) 
+    \item todas las promesas en promesasDe.promesas están en el correspondiente infoCliente y viceversa.\\
+promesasDe.actualizado $\Rightarrow$\\ esPermutacion(promesasALista(dameTítulosCliente(wolfieEstr.clientes, promesasDe.cliente)), promesasDe.promesas)
+ \end{enumerate}
+
+  \Rep[wolfie][w]{
+  ($\forall nomTit:titulo$) (def?($nomTit$, $w$.$titulos$) $\Rightarrow$ cantidadMáximaAcciones($nomTit$, $w.titulos$) $\ge$ accionesDisponibles($nomTit$, $w.titulos$))
+  $\land$
+  ($\forall claveCliente:cliente$) (def?($claveCliente$, $w$.$clientes$) $\Rightarrow$ totalAcciones($claveCliente$, $w$.$clientes$) = sumatoriaCantidadAcciones(dameTítulos($claveCliente$, $w$.$clientes$))
+  	$\land$
+  	($\forall nomTit:titulo$) (def?($nomTit$, dameTítulos($claveCliente$, $w$.$clientes$)) $\Rightarrow$ cantidadPrometidasVenta(obtener($nomTit$, dameTítulos($claveCliente$, $w$.$clientes$)) $\leq$ cantidadAcciones(obtener($nomTit$, dameTítulos($claveCliente$, $w$.$clientes$))  		        
+        $\land$ 
+        def?($nomTit$, $w$.$titulos$)
+        )
+    )
+   $\land$
+   ($\forall nomTit:string$) (def?($nomTit$, $w$.$titulos$) $\Rightarrow$ dameDisponibles($nomTit$, $w$.$titulos$) = dameMaxAcciones($nomTit$, $w$.$titulos$) - sumatoriaAccionesTítulo($t$, $w$.$clientes$))
+   $\land$
+   wolfieEstr.promesasDe.actualizado $\Rightarrow$ (($\forall nomTit:string$) (cantidadDeCompra(wolfieEstr.promesasDe.promesas, nomTit) = 1 $\land$ cantidadDeVenta(wolfieEstr.promesasDe.promesas, nomTit) = 1)) $\land$ def?(wolfieEstr.clientes, promesasDe.cliente) $\land$ esPermutacion(promesasALista(dameTítulosCliente(wolfieEstr.clientes, promesasDe.cliente)), promesasDe.promesas)
+ 
+        
+  }\mbox{}
+  
+  ~
+  
+  \tadOperacion{sumatoriaAccionesTítulo}{t/string,clientes/dict({cliente, infoCliente})}{nat}{}
+  \tadAxioma{sumatoriaAccionesTítulo($t$,$clientes$)}{sumatoriaAccionesTítuloConj($t$, claves($clientes$), $clientes$)}
+  
+  ~
+  
+  \tadOperacion{sumatoriaAccionesTítuloConj}{t/string,claves/conj(string), clientes/dict({nat, infoCliente})}{nat}{}
+  \tadAxioma{sumatoriaAccionesTítuloConj($t$, $claves$, $clientes$)}{\IF $\emptyset$?(claves) THEN 0 ELSE 
+  dameCantAcciones($t$, dameTítulos(obtener(dameUno($claves$), $clientes$))) + sumatoriaAccionesTítuloConj($t$, sinUno($claves$), $clientes$) FI}
+  
+  ~
+  
+  \tadOperacion{dameCantAcciones}{nomTit/string,títulos/{dict(nat, infoTituloCliente)}}{nat}{}
+  \tadAxioma{dameCantAcciones($nomTit$,$títulos$)}{\IF def?($nomTit$, $titulos$) THEN obtener($nomTit$, $titulos$).cantidadAcciones ELSE 0 FI}
+  
+  ~
+  
+  \tadOperacion{dameMaxAcciones}{nomTit/string,títulos/{dict(string, infoTitulo)}}{nat}{def?($nomTit$, $titulos$)}
+  \tadAxioma{dameMaxAcciones($nomTit$,$títulos$)}{$\prod_1$(obtener($nomTit$, $titulos$))}
+
+  ~      
+
+  \tadOperacion{cantidadMáximaAcciones}{nomTit/string,títulos/{dict(string, infoTitulo)}}{nat}{def?($nomTit$, $titulos$)}
+  \tadAxioma{cantidadMáximaAcciones($nomTit$,$títulos$)}{obtener($nomTit$, $titulos$).maxAcciones}
+
+  ~
+  
+  \tadOperacion{accionesDisponibles}{nomTit/string, títulos/{dict(string, infoTitulo)}}{nat}{def?($nomTit$, $titulos$)}
+  \tadAxioma{accionesDisponibles($nomTit$,$títulos$)}{obtener($nomTit$, $titulos$).accionesDisponibles}
+  
+  ~
+  
+  \tadOperacion{dameTítulos}{c/nat, clientes/dict({nat, infoCliente})}{dict}{def?($c$, $clientes$)}
+  \tadAxioma{dameTítulos($c$, $clientes$)}{obtener($c$, $clientes$).titulos}
+
+  ~
+  
+  \tadOperacion{totalAcciones}{c/nat, clientes/{dict(nat, infoCliente)}}{dict}{def?($c$, $clientes$)}
+  \tadAxioma{totalAcciones($c$, $clientes$)}{obtener($c$, $clientes$).totalAcciones}
+  
+  ~
+
+  \tadOperacion{sumatoriaCantidadAcciones}{títulos/{dict(string, infoTítuloCliente)}}{nat}{}
+  \tadAxioma{sumatoriaCantidadAcciones($titulos$)}{sumatoriaPrimeraComponenteDiccionario(claves($titulos$), $titulos$)}
+  
+  ~
+
+  \tadOperacion{sumatoriaPrimeraComponenteDiccionario}{c/conj(string), d/{dict(string, infoTítuloCliente)}}{nat}{}
+  \tadAxioma{sumatoriaPrimeraComponenteDiccionario($c$, $d$)}{\IF $\emptyset ?$($c$) THEN 0 ELSE $\prod_1$(obtener(dameUno($c$), $d$)) + 
+  	sumatoriaPrimeraComponenteDiccionario(sinUno($c$), $d$) FI}
+
+  ~
+
+  \tadOperacion{cantidadPrometidasVentas}{t/infoTituloCliente}{nat}{}
+  \tadAxioma{cantidadPrometidasVentas($t$)}{t.venta.cantidad}
+  
+  ~	
+
+  \tadOperacion{cantidadAcciones}{t/infoTituloCliente}{nat}{}
+  \tadAxioma{cantidadAcciones($t$)}{t.cantidadAcciones}
+	
+  ~    	
+
+  \tadOperacion{cantidadDeCompra}{promesas/secu(promesaTítulo), nomTit/string}{nat}{}
+  \tadAxioma{cantidadDeCompra($promesas$, $nomTit$)}{\IF vacia?(promesas) THEN
+  0 
+  ELSE {(\IF prim(promesas).nomTit = nomTit $\land$ prim(promesas).tipo = compra THEN 1 ELSE 0 FI)} + cantidadDeCompra(fin($promesas$), $nomTit$) FI}
+	
+  ~
+  
+  \tadOperacion{cantidadDeVenta}{promesas/secu(promesaTítulo), nomTit/string}{nat}{}
+  \tadAxioma{cantidadDeVenta($promesas$, $nomTit$)}{\IF vacia?(promesas) THEN
+  0 
+  ELSE {(\IF prim(promesas).nomTit = nomTit $\land$ prim(promesas).tipo = venta THEN 1 ELSE 0 FI)} + cantidadDeVenta(fin($promesas$), $nomTit$) FI}
+	
+  ~
+  
+  \tadOperacion{dameTítulosCliente}{clientes/dict(nat, infoCliente), c/cliente}{dictTítulos}{}
+  \tadAxioma{dameTítulosCliente($clientes$, $c$)}{obtener($clientes$, $c$).títulos}
+	
+  ~
+  
+  \tadOperacion{promesasALista}{titulos/dict(string, infoTítuloCliente)}{secu(promesaTítulo)}{}
+  \tadAxioma{promesasALista($titulos$)}{promesasAListaConClaves(claves($titulos$), $titulos$)}
+	
+  ~
+  
+  \tadOperacion{promesasAListaConClaves}{claves/conj(string), titulos/dict(string, infoTítuloCliente)}{secu(promesaTítulo)}{}
+  \tadAxioma{promesasAListaConClaves($claves$, $titulos$)}{\IF $\emptyset$?(claves) THEN <> ELSE generarPromesasTítulo(dameUno($claves$), obtener($titulos$, dameUno($claves$)) \& promesasAListaConClaves(sinUno(claves), $titulos$) FI}
+
+  ~
+  
+  \tadOperacion{generarPromesasTítulo}{nomTit/string, info/infoTítuloCliente}{secu(promesaTítulo)}{}
+  \tadAxioma{generarPromesasTítulo($nomTit$, $info$)}{(
+  \IF $info$.$promesas$.$compra$.$pendiente$ THEN generarPromesaTítulo(nomTit,compra, $info$.$promesas$.$compra$) ELSE <> FI) \& (\IF $info$.$promesas$.$venta$.$pendiente$ THEN generarPromesaTítulo(nomTit, venta, $info$.$promesas$.$venta$) ELSE <> FI)}
+
+  ~
+  
+  \tadOperacion{generarPromesaTítulo}{nomTit/string, tipo/string, p/promesa}{promesaTítulo}{}
+  \tadAxioma{generarPromesasTítulo($nomTit$, $tipo$, $p$)}{<$nomTit$, $tipo$, $p$.$umbral$, $p$.$cantidad$>}
+
+  ~
+\BlankLine
+\textbf{Función de abstracción}\\
+  % asumo que we es el wolfie de diseño y w es el de tads
+  \AbsFc[wolfie]{wolfie}{clientes($w$) = claves(we.clientes) $\land$ títulos($w$) = claves($we$.$titulos$) $\land$ 
+  ($\forall c:cliente, t:titulo$) ($c$ $\in$ clientes($w$) $\land$ $t$ $\in$ titulos($w$) $\Rightarrow$ 
+  accionesPorCliente($c$, nombre($t$), $w$) = dameCantAcciones(nombre($t$), dameTítulos($c$, $we$.$clientes$))) $\land$
+  ($\forall c:cliente$) ($c$ $\in$ clientes($w$) $\Rightarrow$
+  ($\forall p:promesa$) ($p \in$ promesasDe($c$, $w$) $\Leftrightarrow$ ($\exists$ $pEstr:promesaTítulo$ / $pEstr$ $\in$ promesasAConj($c$, $we$.$clientes$)
+  $\land$ $tp$.$tipo$ = tipo($p$) $\land$ $tp$.$umbral$ = limite($p$)
+  $\land$ $tp$.$cantidad$ = cantidad($p$) $\land$ $tp$.$nomTit$ = titulo($p$))))
+  }
+  
+  ~
+  
+  \tadOperacion{promesasAConj}{c/cliente, clientes/{dict(nat, infoCliente)}}{conj(tPromesa)}{}
+  \tadAxioma{promesasAConj($c$, $clientes$)}{damePromesas(obtener($clientes$, $c$).$titulos$)}
+  
+  ~
+  
+  \tadOperacion{damePromesas}{titulos/dict(string, infoTítuloCliente)}{conj(promesaTítulo)}{}
+  \tadAxioma{damePromesas($titulos$)}{promesasAConjConClaves(claves($titulos$), $titulos$)}
+	
+  ~
+  
+  \tadOperacion{promesasAConjConClaves}{claves/conj(string), titulos/dict(string, infoTítuloCliente)}{secu(promesaTítulo)}{}
+  \tadAxioma{promesasAConjConClaves($claves$, $titulos$)}{\IF $\emptyset$?(claves) THEN $\emptyset$ ELSE generarPromesasTítulo(dameUno($claves$), obtener($titulos$, dameUno($claves$)) $\cup$ promesasAConjConClaves(sinUno(claves), $titulos$) FI}
+
+  ~
+  
+  \tadOperacion{generarPromesasTítulo}{nomTit/string, info/infoTítuloCliente}{secu(promesaTítulo)}{}
+  \tadAxioma{generarPromesasTítulo($nomTit$, $info$)}{(
+  \IF $info$.$promesas$.$compra$.$pendiente$ THEN generarPromesaTítulo(nomTit,compra, $info$.$promesas$.$compra$) ELSE $\emptyset$ FI) $\cup$ (\IF $info$.$promesas$.$venta$.$pendiente$ THEN generarPromesaTítulo(nomTit, venta, $info$.$promesas$.$venta$) ELSE $\emptyset$ FI)}
+
+  ~
+  
+  \tadOperacion{generarPromesaTítulo}{nomTit/string, tipo/string, p/promesa}{promesaTítulo}{}
+  \tadAxioma{generarPromesasTítulo($nomTit$, $tipo$, $p$)}{<$nomTit$, $tipo$, $p$.$umbral$, $p$.$cantidad$>}
+
+  ~
+  
+  \tadOperacion{dameCantAcciones}{nomTit/string,títulos/{dict(string, infoTituloCliente)}}{nat}{}
+  \tadAxioma{dameCantAcciones($nomTit$,$titulos$)}{\IF def?($nomTit$, $titulos$) THEN $\prod_1$(obtener($nomTit$, $titulos$)) ELSE 0 FI}
+  
+  ~
+  
+  \tadOperacion{dameTítulos}{c/nat, clientes/{dict(nat, infoCliente)}}{dict(string, infoTituloCliente)}{def?($c$, $clientes$)}
+  \tadAxioma{dameTítulos($c$, $clientes$)}{$\prod_1$(obtener($c$, $clientes$))}
+  
+  ~
+  
+  \begin{Algoritmos}
+\\
+\begin{algorithm}[H]
+\textit{i}InaugurarWolfie(\In{clientes}{conj(cliente)})\\
+\BlankLine
+diccTítulos w.títulos $\leftarrow$ NuevoDiccionario()\tcp*{O( 1 )}
+diccClientes w.clientes $\leftarrow$ Vacío()\tcp*{O( 1 )}
+itConj itClientes = crearIt(clientes)\tcp*{O( 1 )}
+\While {haySiguiente(itClientes)}{\tcp*{O(\#(clientes))}
+	diccTítulos títulos $\leftarrow$ NuevoDiccionario()\tcp*{O( 1 )}
+	Definir(w.clientes, siguiente(itClientes), <títulos, 0>)\tcp*{O( 1 )}
+    avanzar(itClientes)\tcp*{O( 1 )}
+}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}AgregarTítulo(\Inout{w}{wolfie}, \In{nomTit}{string}, \In{maxAcciones}{nat}, \In{cot}{nat})\\
+\BlankLine
+nat accionesDisponibles $\leftarrow$ maxAcciones\\
+bool enAlza $\leftarrow$ true\\
+tupla infoTítulo $\leftarrow$ <maxAcciones, accionesDisponibles, cot, enAlza>\\
+Definir(nomTit, infoTítulo, w.títulos)\tcp*{O( |nomTit| )}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}ActualizarCotización(\Inout{w}{wolfie}, \In{nomTit}{string}, \In{cot}{nat})\\
+\BlankLine
+w.promesasDe.actualizado $\leftarrow$ false\\
+\BlankLine
+tupla infoTítulo $\leftarrow$ Obtener(w.títulos, nomTit)\tcp*{O( |nomTit| )}
+\If{infoTítulo.cotización > cot}{infoTítulo.enAlza $\leftarrow$ false}
+\Else{infoTítulo.enAlza $\leftarrow$ true}
+infoTítulo.cotización $\leftarrow$ cot\\
+\BlankLine
+// ejecutamos todas las promesas de venta\\
+itDiccClientes itClientes $\leftarrow$ crearIt(w.clientes)\\
+\While{haySiguiente(itClientes)}{\tcp*{O( \#clientes )}
+	tupla infoCliente $\leftarrow$ siguienteSignificado(itClientes)\\
+    \If {definido(nomTit, infoCliente.títulos)}{\tcp*{O( |nomTit| )}
+    	tupla títutloActual $\leftarrow$ obtener(infoCliente.títulos, nomTit)\tcp*{O( |nomTit| )}
+    	nat accionesVendidas $\leftarrow$ ejecutarVenta(títuloActual.promesas, cot)\tcp*{O( 1 )}
+        \If{accionesVendidas > 0}{
+        	títuloActual.cantidadAcciones $\leftarrow$ títuloActual.cantidadAcciones - accionesVendidas\\
+            infoCliente.totalAcciones $\leftarrow$ infoCliente.totalAcciones - accionesVendidas\\
+            infoTítulo.accionesDisponibles $\leftarrow$ infoTítulo.accionesDisponibles + accionesVendidas\\
+        }
+    }
+}
+\BlankLine
+//generamos un arregloOrdenado de tuplas <cliente, totalAcciones> ordenado por la segunda\\ 
+//componente de las tuplas\\
+itDiccClientes itClientes $\leftarrow$ crearIt(w.clientes)\tcp*{O( 1 )}
+nat cantidadClientes $\leftarrow$ \#claves(w.clientes)\\
+arr clientesPorAcciones $\leftarrow$ crearArreglo(cantidadClientes)\tcp*{O( \#clientes )}
+nat i $\leftarrow$ 0\\
+\While{haySiguiente(itClientes)}{\tcp*{O( \#clientes )}
+	tupla clienteTotalAcciones $\leftarrow$ <siguienteClave(itClientes), siguienteSignificado(itClientes).totalAcciones>\\
+}
+clientesPorAcciones $\leftarrow$ mergeSort(clientesPorAcciones)\tcp*{O( 1 )}
+\BlankLine
+// ejecutamos todas las promesas de compra\\
+\For{nat i $\leftarrow$ 0 \KwTo (cantidadClientes-1)}{
+	tupla infoCliente $\leftarrow$ obtener(w.clientes, clientesPorAcciones[i])\\
+    \If{definido(nomTit, infoCliente.títulos)}{
+    	tupla títuloActual $\leftarrow$ obtener(infoClientes.títulos, nomTit)\\
+        nat accionesCompradas $\leftarrow$ ejecutarCompra(títuloActual.promesas, cot)\\
+        \If{accionesCompradas > 0}{
+        	títuloActual.cantidadAcciones $\leftarrow$ títuloActual.cantidadAcciones + accionesCompradas\\
+            infoCliente.totalAcciones $\leftarrow$ infoCliente.totalAcciones + accionesCompradas\\
+            infoTítulo.accionesDisponibles $\leftarrow$ infoTítulo.accionesDisponibles - accionesCompradas\\
+        }
+    }
+    
+}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}EjecutarVenta(\Inout{promesas}{promesas},\In{cot}{nat}) $\longrightarrow$ res:nat \\
+\If{promesas.venta.pendiente $\yluego$ promesas.venta.umbral < cot}{
+	promesas.venta.pendiente $\leftarrow$ false\\
+    res $\leftarrow$ promesas.venta.cantidad\\
+\Else{
+	res $\leftarrow$ 0\\	
+}}
+\BlankLine
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}EjecutarCompra(\Inout{promesas}{promesas},\In{cot}{nat}) $\longrightarrow$ res:nat \\
+\If{promesas.compra.pendiente $\yluego$ promesas.compra.umbral < cot}{
+	promesas.compra.pendiente $\leftarrow$ false\\
+    res $\leftarrow$ promesas.compra.cantidad\\
+\Else{
+	res $\leftarrow$ 0\\	
+}}
+\BlankLine
+\end{algorithm}
+
+
+\begin{algorithm}[H]
+\textit{i}AgregarPromesa(\Inout{w}{wolfie},\In{c}{cliente}, \In{nomTit}{string}, \In{tipo}{string}, \In{umbral}{nat}, \In{cantidad}{nat})\\
+\BlankLine
+\If{c = w.promesasDe.cliente}{w.promesasDe.actualizado $\leftarrow$ false}
+\BlankLine
+tupla infoCliente $\leftarrow$ obtener(c, w.clientes)\\
+\If{definido(infoCliente.títulos, nomTit)}{
+	tupla infoTítuloCliente $\leftarrow$ obtener(infoCliente.títulos, nomTit)\\
+    \If{tipo = venta}{
+    	infoTítuloCliente.promesas.venta $\leftarrow$ <true, umbral, cantidad>\\
+    }
+    \If{tipo = compra}{
+    	infoTítuloCliente.promesas.compra $\leftarrow$ <true, umbral, cantidad>\\
+    }    
+}
+\Else{
+	tupla infoTítuloCliente\\
+    infoTítuloCliente.cantidadAcciones $\leftarrow$ 0\\
+    \If{tipo = venta}{
+    	infoTítuloCliente.promesas.compra $\leftarrow$ <false, 0, 0>\\
+    	infoTítuloCliente.promesas.venta $\leftarrow$ <true, umbral, cantidad>\\
+    }
+    \If{tipo = compra}{
+    	infoTítuloCliente.promesas.venta $\leftarrow$ <false, 0, 0>\\
+    	infoTítuloCliente.promesas.compra $\leftarrow$ <true, umbral, cantidad>\\
+    }        
+	definir(infoCliente.títulos, nomTit, infoTítuloCliente)\\
+}
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}clientes() $\longrightarrow$ res: itDiccClientes(nat)\\
+\BlankLine
+res $\leftarrow$ crearItDiccOrd(w.clientes)
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}títulos() $\longrightarrow$ res: itDiccTítulos(nat)\\
+\BlankLine
+res $\leftarrow$ crearItDiccTítulos(w.títulos)
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}PromesasDe(\Inout{w}{wolfie}, \In{c}{cliente}) $\longrightarrow$ res: itLst(promesasTítulo)\\
+\BlankLine
+\If{c = w.promesasDe.cliente $\land$ w.promesasDe.actualizado}{
+	res $\leftarrow$ crearIt(w.promesasDe.promesas)
+}
+\BlankLine
+tupla infoCliente $\leftarrow$ obtener(w.clientes, c)\\
+itDiccTítulos itTítulos $\leftarrow$ crearItDiccTítulos(infoCliente.títulos)\\
+lista promesas $\leftarrow$ vacia()\\
+\While{haySiguiente(itTítulos)}{
+	tupla infoTítulo $\leftarrow$ siguienteSignificado(itTítulos)\\
+    \If{infoTítulo.promesas.venta.pendiente}{
+    	agregarAdelante(promesas, <siguienteClave(itTítulos), venta, infoTítulo.promesas.venta.umbral, infoTítulo.promesas.venta.cantidad>\\
+    }
+    \If{infoTítulo.promesas.compra.pendiente}{
+    	agregarAdelante(promesas, <siguienteClave(itTítulos), compra, infoTítulo.promesas.compra.umbral, infoTítulo.promesas.compra.cantidad>\\
+    }
+}
+\BlankLine
+w.promesasDe.actualizado $\leftarrow$ true\\
+w.promesasDe.cliente $\leftarrow$ c\\
+w.promesasDe.promesas $\leftarrow$ promesas\\
+\BlankLine
+res $\leftarrow$ crearIt(promesas)\\
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}AccionesPorCliente(\In{w}{wolfie}, \In{nomTit}{string}, \In{c}{cliente}) $\longrightarrow$ res: nat\\
+\BlankLine
+tupla infoCliente $\leftarrow$ obtener(w.clientes, c)\\
+tupla infoTítulo $\leftarrow$ obtener(infoCliente.títulos, nomTit)\\
+res $\leftarrow$ infoTítulo.cantidadAcciones\\
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}EnAlza(\In{w}{wolfie}, \In{nomTit}{string}) $\longrightarrow$ res: bool\\
+\BlankLine
+tupla infoTítulo $\leftarrow$ obtener(w.títulos, nomTit)\\
+res $\leftarrow$ infoTítulo.enAlza)\\
+\end{algorithm}
+
+
+
+\end{Algoritmos}
+\end{Representacion}

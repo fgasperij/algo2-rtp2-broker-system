@@ -27,13 +27,13 @@
   \InterfazFuncion{AgregarTítulo}{\Inout{w}{wolfie}, \In{nomTit}{string}, \In{maxAcciones}{nat}, \In{cot}{nat}}{}
   [$w \igobs w_0$ $\land$  ($\forall$ $t$ : $titulo$) ($t \in$ títulos($w_0$) $\Rightarrow$ nombre($t$) $\neq$ nomTit) ]
   {$w \igobs$ agregarTítulo(crearTítulo($nomTit$, $cot$, $maxAcciones$), $w_0$)}
-  [$\Theta(copy(a))$]
+  [$O(|nomTit|)$]
   [agrega un título a $w$ con el nombre $nt$, la cotización $cotizacion$ y un tope máximo de acciones $maxAcciones$.]
   
   \InterfazFuncion{ActualizarCotización}{\Inout{w}{wolfie}, \In{nomTit}{string}, \In{cot}{nat}}{}
   [$w \igobs w_0$ $\land$ ($\exists$ $t$:$titulo$) ($t \in$ títulos($w_0$) $\land$ nombre($t$) $=$ nomTit)]
   {$w \igobs$ actualizarCotización($nomTit$, $cot$, $w_0$)}
-  [$\Theta(copy(a))$]
+  [$O(\#w.clientes * (|nomTit| + log \#w.clientes)))$]
   [actualiza la cotización del título cuyo nombre es $nt$ a la cotización $cotizacion$ y ejecuta las promesas de venta y compra que puedan hacerse dada la nueva cotización del título.]
   
   \InterfazFuncion{AgregarPromesa}{\Inout{w}{wolfie}, \In{cliente}{cliente}, \In{nomTit}{string}, \In{tipo}{string}, \In{umbral}{nat}, \In{cantidad}{nat}}{}
@@ -43,38 +43,50 @@
   ($nomTit$ $\neq$ título($p$) $\lor$ $tipo$ $\neq$ tipo($p$)) $\land$ (tipo = vender $\Rightarrow$ accionesPorCliente($c$, título($p$)) $\geq$ cantidad($p$)))
   ]
   {$w \igobs$ agregarPromesa($c$, crearPromesa($nomTit$, $tipo$, $umbral$, $cantidad$), $w_0$)}
-  [$\Theta(copy(a))$]
+  [$O(|nomTit| + log \#w.clientes)$]
   [agrega una promesa de tipo $tipo$ al cliente $c$ sobre el título cuyo nombre sea $nomTit$.]    
   
   \InterfazFuncion{clientes}{\In{w}{wolfie}}{itDiccClientes(nat, infoCliente)}
   [$true$]
   {haySiguiente($res$) $\land$ esPermutación(SecuSuby($res$), clientes($w$))}
-  [$\Theta(copy(a))$]
+  [$O(1)$]
   [devuelva un iterador a el diccionario de clientes.]
   
   \InterfazFuncion{títulos}{\In{w}{wolfie}}{itDiccTítulos(string, infoTitulo)}
   [$true$]
   {haySiguiente($res$) $\land$ esPermutación(SecuSuby($res$), títulos($w$))}
-  [$\Theta(copy(a))$]
+  [$O(1)$]
   [devuelva un iterador a el diccionario de títulos.]
   
   \InterfazFuncion{promesasDe}{\In{w}{wolfie}, \In{c}{cliente}}{itLst(promesasTítulo)}
   [$c$ $\in$ clientes($w$)]
   {$res \igobs$ promesasDe($c$, $w$)}
-  [$\Theta(copy(a))$]
+  [$O(\#w.titulos * max(|nomTit|))$]
   [devuelve todas las promesas del cliente $c$.]
   
   \InterfazFuncion{accionesPorCliente}{\In{w}{wolfie}, \In{nomTit}{string}, \In{cliente}{c}}{nat}
   [$c$ $\in$ clientes($w$) $\land$ ($\exists t:t\'itulo$)($t \in$ títulos($w$) $\land$ nombre($t$) = $nomTit$)]
   {$res \igobs$ accionesPorCliente($c$, $nomTit$, $w$)}
-  [$\Theta(copy(a))$]
+  [$O(log (\#w.clientes) * |nomTit|)$]
   [devuelve la cantidad de acciones que tiene el cliente $c$ del título cuyo nombre es $nomTit$.]
   
   \InterfazFuncion{enAlza}{\In{w}{wolfie}, \In{nomTit}{string}}{bool}
   [($\exists t:título$)($t \in$ títulos($w$) $\land$ nombre($t$) = $nomTit$)]
   {$res \igobs$ enAlza($nomTit$, $w$)}
-  [$\Theta(copy(a))$]
+  [$O(max(|nomTit|))$]
   [devuelve $true$ si el título acaba de agregarse a Wolfie o si la cotización actual es mayor a la anterior.]
+  
+  \InterfazFuncion{maximaRacha}{\In{w}{wolfie}, \In{nomTit}{string}}{bool}
+  [($\exists t:título$)($t \in$ títulos($w$) $\land$ nombre($t$) = $nomTit$)]
+  {$res \igobs$ maximaRacha(dameTítulo(nomTit, w))}
+  [$O(max(|nomTit|))$]
+  [devuelve $true$ si el título acaba de agregarse a Wolfie o si la cotización actual es mayor a la anterior.]
+  
+  \InterfazFuncion{tituloMasVolatil}{\In{w}{wolfie}}{string}
+  [$\neg\emptyset$?(w.titulos)]
+  {$res \igobs$ títuloMásVolátil($w$)}
+  [$O(\#w.titulos * max(|nomTit|))$]
+  [devuelve uno de los títulos con más fluctuaciones de wolfie.]
  
 \end{Interfaz}
 

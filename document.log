@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.4.4)  24 JUN 2014 01:35
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2014.4.4)  24 JUN 2014 02:02
 entering extended mode
  %&-line parsing enabled.
 **document.tex
@@ -728,8 +728,12 @@ File: t1cmtt.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 \tf@toc=\write4
 \openout4 = `document.toc'.
 
- [2] (./observaciones.tex)
-(./wolfie.tex [3]
+ [2] (./observaciones.tex
+Underfull \hbox (badness 10000) in paragraph at lines 15--18
+
+ []
+
+) (./wolfie.tex [3]
 
 LaTeX Warning: Command \' invalid in math mode on input line 72.
 
@@ -739,14 +743,18 @@ LaTeX Warning: Command \' invalid in math mode on input line 78.
 
 Missing character: There is no í in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 87--90
+LaTeX Warning: Command \' invalid in math mode on input line 84.
+
+Missing character: There is no í in font cmr10!
+[4]
+Underfull \hbox (badness 10000) in paragraph at lines 99--102
 []\T1/cmr/m/it/10 clientes\T1/cmr/m/n/10 : \T1/cmtt/m/n/10 DiccionarioClientes(
 cliente, infoCliente)\T1/cmr/m/n/10 , \T1/cmr/m/it/10 tí-tu-los\T1/cmr/m/n/10 :
 
  []
 
 
-Underfull \hbox (badness 1859) in paragraph at lines 106--113
+Underfull \hbox (badness 1859) in paragraph at lines 118--125
 []\T1/cmr/m/it/10 maxAcciones\T1/cmr/m/n/10 : \T1/cmtt/m/n/10 nat\T1/cmr/m/n/10
  , \T1/cmr/m/it/10 ac-ciones-Disponibles\T1/cmr/m/n/10 : \T1/cmtt/m/n/10 nat\T1
 /cmr/m/n/10 , \T1/cmr/m/it/10 co-ti-zación\T1/cmr/m/n/10 : \T1/cmtt/m/n/10 nat\
@@ -755,26 +763,26 @@ cmr/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 3118) in paragraph at lines 116--118
+Underfull \hbox (badness 3118) in paragraph at lines 128--130
 []\T1/cmr/m/it/10 títulos\T1/cmr/m/n/10 : \T1/cmtt/m/n/10 DiccionarioTítulos(no
 mbre, infoTítuloCliente) \T1/cmr/m/n/10 , \T1/cmr/m/it/10 to-ta-lAc-ciones\T1/c
 mr/m/n/10 :
  []
 
-[4]
-Overfull \hbox (19.67108pt too wide) in paragraph at lines 157--159
+[5]
+Overfull \hbox (19.67108pt too wide) in paragraph at lines 169--171
 []\T1/cmr/m/n/10 En to-das las en-tradas de in-foTí-tu-lo-Cliente si prome-sas.
 venta.pendiente es ver-dadero en-tonces prome-sas.venta.cantidad
  []
 
 
-Overfull \hbox (20.70084pt too wide) in paragraph at lines 172--174
+Overfull \hbox (20.70084pt too wide) in paragraph at lines 184--186
 \T1/cmr/m/n/10 esPermutacion(promesasALista(dameTítulosCliente(wolfieEstr.clien
 tes, prome-sas-De.cliente)), prome-sas-De.promesas) 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 192--192
+Underfull \hbox (badness 10000) in paragraph at lines 204--204
 \T1/cmr/m/n/10 totalAcciones($\OML/cmm/m/it/10 claveCliente$\T1/cmr/m/n/10 , $\
 OML/cmm/m/it/10 w$\T1/cmr/m/n/10 .$\OML/cmm/m/it/10 clientes$\T1/cmr/m/n/10 ) =
  sumatoriaCantidadAcciones(dameTítulos($\OML/cmm/m/it/10 claveCliente$\T1/cmr/m
@@ -782,7 +790,7 @@ OML/cmm/m/it/10 w$\T1/cmr/m/n/10 .$\OML/cmm/m/it/10 clientes$\T1/cmr/m/n/10 ) =
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 192--192
+Underfull \hbox (badness 10000) in paragraph at lines 204--204
 \OML/cmm/m/it/10 w$\T1/cmr/m/n/10 .$\OML/cmm/m/it/10 clientes$\T1/cmr/m/n/10 ))
  $\OMS/cmsy/m/n/10 ^$ \T1/cmr/m/n/10 ($\OMS/cmsy/m/n/10 8\OML/cmm/m/it/10 nomTi
 t \OT1/cmr/m/n/10 : \OML/cmm/m/it/10 titulo$\T1/cmr/m/n/10 ) (def?($\OML/cmm/m/
@@ -792,7 +800,7 @@ mr/m/n/10 ))
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 192--192
+Underfull \hbox (badness 10000) in paragraph at lines 204--204
 \OMS/cmsy/m/n/10 )$ \T1/cmr/m/n/10 cantidadPrometidasVenta(obtener($\OML/cmm/m/
 it/10 nomTit$\T1/cmr/m/n/10 , dameTítulos($\OML/cmm/m/it/10 claveCliente$\T1/cm
 r/m/n/10 , $\OML/cmm/m/it/10 w$\T1/cmr/m/n/10 .$\OML/cmm/m/it/10 clientes$\T1/c
@@ -800,7 +808,7 @@ mr/m/n/10 )) $\OMS/cmsy/m/n/10 ^^T$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 192--192
+Underfull \hbox (badness 10000) in paragraph at lines 204--204
 \T1/cmr/m/n/10 cantidadAcciones(obtener($\OML/cmm/m/it/10 nomTit$\T1/cmr/m/n/10
  , dameTítulos($\OML/cmm/m/it/10 claveCliente$\T1/cmr/m/n/10 , $\OML/cmm/m/it/1
 0 w$\T1/cmr/m/n/10 .$\OML/cmm/m/it/10 clientes$\T1/cmr/m/n/10 )) $\OMS/cmsy/m/n
@@ -808,7 +816,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 192--192
  []
 
 
-Underfull \hbox (badness 3514) in paragraph at lines 192--192
+Underfull \hbox (badness 3514) in paragraph at lines 204--204
 \OML/cmm/m/it/10 w$\T1/cmr/m/n/10 .$\OML/cmm/m/it/10 titulos$\T1/cmr/m/n/10 ) )
  ) $\OMS/cmsy/m/n/10 ^$ \T1/cmr/m/n/10 ($\OMS/cmsy/m/n/10 8\OML/cmm/m/it/10 nom
 Tit \OT1/cmr/m/n/10 : \OML/cmm/m/it/10 string$\T1/cmr/m/n/10 ) (def?($\OML/cmm/
@@ -818,7 +826,7 @@ bles($\OML/cmm/m/it/10 nomTit$\T1/cmr/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 192--192
+Underfull \hbox (badness 10000) in paragraph at lines 204--204
 \OML/cmm/m/it/10 w$\T1/cmr/m/n/10 .$\OML/cmm/m/it/10 titulos$\T1/cmr/m/n/10 ) =
  dameMaxAcciones($\OML/cmm/m/it/10 nomTit$\T1/cmr/m/n/10 , $\OML/cmm/m/it/10 w$
 \T1/cmr/m/n/10 .$\OML/cmm/m/it/10 titulos$\T1/cmr/m/n/10 ) - sumatoriaAccionesT
@@ -826,7 +834,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 192--192
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 192--192
+Underfull \hbox (badness 10000) in paragraph at lines 204--204
 \OML/cmm/m/it/10 w$\T1/cmr/m/n/10 .$\OML/cmm/m/it/10 clientes$\T1/cmr/m/n/10 ))
  $\OMS/cmsy/m/n/10 ^$ \T1/cmr/m/n/10 wolfieEstr.promesasDe.actualizado $\OMS/cm
 sy/m/n/10 )$ \T1/cmr/m/n/10 (($\OMS/cmsy/m/n/10 8\OML/cmm/m/it/10 nomTit \OT1/c
@@ -834,112 +842,113 @@ mr/m/n/10 : \OML/cmm/m/it/10 string$\T1/cmr/m/n/10 ) (can-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 192--192
+Underfull \hbox (badness 10000) in paragraph at lines 204--204
 \T1/cmr/m/n/10 ti-dad-De-Com-pra(wolfieEstr.promesasDe.promesas, nomTit) = 1 $\
 OMS/cmsy/m/n/10 ^$ \T1/cmr/m/n/10 can-ti-dad-De-Ven-
  []
 
 
-Underfull \hbox (badness 2443) in paragraph at lines 192--192
+Underfull \hbox (badness 2443) in paragraph at lines 204--204
 \T1/cmr/m/n/10 ta(wolfieEstr.promesasDe.promesas, nomTit) = 1)) $\OMS/cmsy/m/n/
 10 ^$ \T1/cmr/m/n/10 def?(wolfieEstr.clientes, prome-sas-De.cliente)
  []
 
 
-Overfull \hbox (14.99998pt too wide) in paragraph at lines 192--192
+Overfull \hbox (14.99998pt too wide) in paragraph at lines 204--204
 []\T1/cmr/m/n/10 Rep($\OML/cmm/m/it/10 w$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^
 Q$| [] 
  []
 
-[5]
-Overfull \hbox (14.99998pt too wide) in paragraph at lines 197--197
+
+Overfull \hbox (14.99998pt too wide) in paragraph at lines 209--209
 []\T1/cmr/m/n/10 sumatoriaAccionesTítulo($\OML/cmm/m/it/10 t$\T1/cmr/m/n/10 ,$\
 OML/cmm/m/it/10 clientes$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-Overfull \hbox (6.01535pt too wide) in paragraph at lines 203--203
+Overfull \hbox (6.01535pt too wide) in paragraph at lines 215--215
 []\T1/cmr/m/n/10 dameCantAcciones($\OML/cmm/m/it/10 t$\T1/cmr/m/n/10 , dameTítu
 los(obtener(dameUno($\OML/cmm/m/it/10 claves$\T1/cmr/m/n/10 ),
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 203--203
+Underfull \hbox (badness 10000) in paragraph at lines 215--215
 \OML/cmm/m/it/10 clientes$\T1/cmr/m/n/10 ))) + sumatoriaAccionesTítuloConj($\OM
 L/cmm/m/it/10 t$\T1/cmr/m/n/10 ,
  []
 
 
-Overfull \hbox (12.78053pt too wide) in paragraph at lines 203--203
+Overfull \hbox (12.78053pt too wide) in paragraph at lines 215--215
 []\T1/cmr/m/n/10 sumatoriaAccionesTítuloConj($\OML/cmm/m/it/10 t$\T1/cmr/m/n/10
  , $\OML/cmm/m/it/10 claves$\T1/cmr/m/n/10 , $\OML/cmm/m/it/10 clientes$\T1/cmr
 /m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-LaTeX Warning: Command \' invalid in math mode on input line 208.
+LaTeX Warning: Command \' invalid in math mode on input line 220.
 
 Missing character: There is no í in font cmr10!
 
-LaTeX Warning: Command \' invalid in math mode on input line 208.
+LaTeX Warning: Command \' invalid in math mode on input line 220.
 
 Missing character: There is no í in font cmr10!
 
-Overfull \hbox (14.99998pt too wide) in paragraph at lines 208--208
+Overfull \hbox (14.99998pt too wide) in paragraph at lines 220--220
 []\T1/cmr/m/n/10 dameCantAcciones($\OML/cmm/m/it/10 nomTit$\T1/cmr/m/n/10 ,$\OM
 L/cmm/m/it/10 ttulos$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
+[6]
 
-LaTeX Warning: Command \' invalid in math mode on input line 213.
-
-Missing character: There is no í in font cmr10!
-
-LaTeX Warning: Command \' invalid in math mode on input line 213.
+LaTeX Warning: Command \' invalid in math mode on input line 225.
 
 Missing character: There is no í in font cmr10!
 
-Overfull \hbox (14.99998pt too wide) in paragraph at lines 213--213
+LaTeX Warning: Command \' invalid in math mode on input line 225.
+
+Missing character: There is no í in font cmr10!
+
+Overfull \hbox (14.99998pt too wide) in paragraph at lines 225--225
 []\T1/cmr/m/n/10 dameMaxAcciones($\OML/cmm/m/it/10 nomTit$\T1/cmr/m/n/10 ,$\OML
 /cmm/m/it/10 ttulos$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-LaTeX Warning: Command \' invalid in math mode on input line 218.
+LaTeX Warning: Command \' invalid in math mode on input line 230.
 
 Missing character: There is no í in font cmr10!
 
-LaTeX Warning: Command \' invalid in math mode on input line 218.
+LaTeX Warning: Command \' invalid in math mode on input line 230.
 
 Missing character: There is no í in font cmr10!
 
-Overfull \hbox (14.99998pt too wide) in paragraph at lines 218--218
+Overfull \hbox (14.99998pt too wide) in paragraph at lines 230--230
 []\T1/cmr/m/n/10 cantidadMáximaAcciones($\OML/cmm/m/it/10 nomTit$\T1/cmr/m/n/10
  ,$\OML/cmm/m/it/10 ttulos$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-LaTeX Warning: Command \' invalid in math mode on input line 223.
+LaTeX Warning: Command \' invalid in math mode on input line 235.
 
 Missing character: There is no í in font cmr10!
 
-LaTeX Warning: Command \' invalid in math mode on input line 223.
+LaTeX Warning: Command \' invalid in math mode on input line 235.
 
 Missing character: There is no í in font cmr10!
 
-Overfull \hbox (14.99998pt too wide) in paragraph at lines 223--223
+Overfull \hbox (14.99998pt too wide) in paragraph at lines 235--235
 []\T1/cmr/m/n/10 accionesDisponibles($\OML/cmm/m/it/10 nomTit$\T1/cmr/m/n/10 ,$
 \OML/cmm/m/it/10 ttulos$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-Overfull \hbox (13.89026pt too wide) in paragraph at lines 228--228
+Overfull \hbox (13.89026pt too wide) in paragraph at lines 240--240
 []\T1/cmr/m/n/10 dameTítulos($\OML/cmm/m/it/10 c$\T1/cmr/m/n/10 , $\OML/cmm/m/i
 t/10 clientes$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-Overfull \hbox (13.89026pt too wide) in paragraph at lines 233--233
+Overfull \hbox (13.89026pt too wide) in paragraph at lines 245--245
 []\T1/cmr/m/n/10 totalAcciones($\OML/cmm/m/it/10 c$\T1/cmr/m/n/10 , $\OML/cmm/m
 /it/10 clientes$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
@@ -947,7 +956,7 @@ Overfull \hbox (13.89026pt too wide) in paragraph at lines 233--233
 Missing character: There is no í in font cmr10!
 Missing character: There is no í in font cmr10!
 
-Overfull \hbox (14.99998pt too wide) in paragraph at lines 238--238
+Overfull \hbox (14.99998pt too wide) in paragraph at lines 250--250
 []\T1/cmr/m/n/10 sumatoriaCantidadAcciones($\OML/cmm/m/it/10 titulos$\T1/cmr/m/
 n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
@@ -955,25 +964,25 @@ n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| []
 Missing character: There is no í in font cmr10!
 Missing character: There is no í in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 244--244
+Underfull \hbox (badness 10000) in paragraph at lines 256--256
 []$[][]$\T1/cmr/m/n/10 (obtener(dameUno($\OML/cmm/m/it/10 c$\T1/cmr/m/n/10 ), $
 \OML/cmm/m/it/10 d$\T1/cmr/m/n/10 )) +
  []
 
 
-Overfull \hbox (13.89026pt too wide) in paragraph at lines 244--244
+Overfull \hbox (13.89026pt too wide) in paragraph at lines 256--256
 []\T1/cmr/m/n/10 sumatoriaPrimeraComponenteDiccionario($\OML/cmm/m/it/10 c$\T1/
 cmr/m/n/10 , $\OML/cmm/m/it/10 d$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-Overfull \hbox (14.99998pt too wide) in paragraph at lines 249--249
+Overfull \hbox (14.99998pt too wide) in paragraph at lines 261--261
 []\T1/cmr/m/n/10 cantidadPrometidasVentas($\OML/cmm/m/it/10 t$\T1/cmr/m/n/10 )|
  $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
-[6]
-Overfull \hbox (14.99998pt too wide) in paragraph at lines 254--254
+
+Overfull \hbox (14.99998pt too wide) in paragraph at lines 266--266
 []\T1/cmr/m/n/10 cantidadAcciones($\OML/cmm/m/it/10 t$\T1/cmr/m/n/10 )| $\OMS/c
 msy/m/n/10 ^^Q$| [] 
  []
@@ -981,50 +990,51 @@ msy/m/n/10 ^^Q$| []
 Missing character: There is no í in font cmr10!
 Missing character: There is no í in font cmr10!
 
-Overfull \hbox (13.89026pt too wide) in paragraph at lines 261--261
+Overfull \hbox (13.89026pt too wide) in paragraph at lines 273--273
 []\T1/cmr/m/n/10 cantidadDeCompra($\OML/cmm/m/it/10 promesas$\T1/cmr/m/n/10 , $
 \OML/cmm/m/it/10 nomTit$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
+[7]
 Missing character: There is no í in font cmr10!
 Missing character: There is no í in font cmr10!
 
-Overfull \hbox (13.89026pt too wide) in paragraph at lines 268--268
+Overfull \hbox (13.89026pt too wide) in paragraph at lines 280--280
 []\T1/cmr/m/n/10 cantidadDeVenta($\OML/cmm/m/it/10 promesas$\T1/cmr/m/n/10 , $\
 OML/cmm/m/it/10 nomTit$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-Overfull \hbox (13.89026pt too wide) in paragraph at lines 273--273
+Overfull \hbox (13.89026pt too wide) in paragraph at lines 285--285
 []\T1/cmr/m/n/10 dameTítulosCliente($\OML/cmm/m/it/10 clientes$\T1/cmr/m/n/10 ,
  $\OML/cmm/m/it/10 c$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-Overfull \hbox (14.99998pt too wide) in paragraph at lines 278--278
+Overfull \hbox (14.99998pt too wide) in paragraph at lines 290--290
 []\T1/cmr/m/n/10 promesasALista($\OML/cmm/m/it/10 titulos$\T1/cmr/m/n/10 )| $\O
 MS/cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-Overfull \hbox (24.46288pt too wide) in paragraph at lines 282--282
+Overfull \hbox (24.46288pt too wide) in paragraph at lines 294--294
 [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 283--283
+Underfull \hbox (badness 10000) in paragraph at lines 295--295
 []\T1/cmr/m/n/10 generarPromesasTítulo(dameUno($\OML/cmm/m/it/10 claves$\T1/cmr
 /m/n/10 ), obtener($\OML/cmm/m/it/10 titulos$\T1/cmr/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 4859) in paragraph at lines 283--283
+Underfull \hbox (badness 4859) in paragraph at lines 295--295
 \T1/cmr/m/n/10 dameUno($\OML/cmm/m/it/10 claves$\T1/cmr/m/n/10 )) & prome-sasAL
 -is-ta-Con-Claves(sinUno(claves),
  []
 
 
-Overfull \hbox (13.89026pt too wide) in paragraph at lines 283--283
+Overfull \hbox (13.89026pt too wide) in paragraph at lines 295--295
 []\T1/cmr/m/n/10 promesasAListaConClaves($\OML/cmm/m/it/10 claves$\T1/cmr/m/n/1
 0 , $\OML/cmm/m/it/10 titulos$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
@@ -1032,64 +1042,65 @@ Overfull \hbox (13.89026pt too wide) in paragraph at lines 283--283
 Missing character: There is no í in font cmr10!
 Missing character: There is no í in font cmr10!
 
-Overfull \hbox (13.89026pt too wide) in paragraph at lines 289--289
+Overfull \hbox (13.89026pt too wide) in paragraph at lines 301--301
 []\T1/cmr/m/n/10 generarPromesasTítulo($\OML/cmm/m/it/10 nomTit$\T1/cmr/m/n/10 
 , $\OML/cmm/m/it/10 info$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
-[7]
-Overfull \hbox (12.78053pt too wide) in paragraph at lines 294--294
+
+Overfull \hbox (12.78053pt too wide) in paragraph at lines 306--306
 []\T1/cmr/m/n/10 generarPromesasTítulo($\OML/cmm/m/it/10 nomTit$\T1/cmr/m/n/10 
 , $\OML/cmm/m/it/10 tipo$\T1/cmr/m/n/10 , $\OML/cmm/m/it/10 p$\T1/cmr/m/n/10 )|
  $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 298--307
+Underfull \hbox (badness 10000) in paragraph at lines 310--319
 
  []
 
+[8]
 
-LaTeX Warning: Command \' invalid in math mode on input line 307.
+LaTeX Warning: Command \' invalid in math mode on input line 319.
 
 Missing character: There is no í in font cmr10!
 
-Overfull \hbox (14.99998pt too wide) in paragraph at lines 307--307
+Overfull \hbox (14.99998pt too wide) in paragraph at lines 319--319
 []\T1/cmr/m/n/10 Abs($\OML/cmm/m/it/10 e$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^
 Q$| [] 
  []
 
 
-Overfull \hbox (13.89026pt too wide) in paragraph at lines 312--312
+Overfull \hbox (13.89026pt too wide) in paragraph at lines 324--324
 []\T1/cmr/m/n/10 promesasAConj($\OML/cmm/m/it/10 c$\T1/cmr/m/n/10 , $\OML/cmm/m
 /it/10 clientes$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-Overfull \hbox (14.99998pt too wide) in paragraph at lines 317--317
+Overfull \hbox (14.99998pt too wide) in paragraph at lines 329--329
 []\T1/cmr/m/n/10 damePromesas($\OML/cmm/m/it/10 titulos$\T1/cmr/m/n/10 )| $\OMS
 /cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-Overfull \hbox (23.15764pt too wide) in paragraph at lines 321--321
+Overfull \hbox (23.15764pt too wide) in paragraph at lines 333--333
 [][] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 322--322
+Underfull \hbox (badness 10000) in paragraph at lines 334--334
 []\T1/cmr/m/n/10 generarPromesasTítulo(dameUno($\OML/cmm/m/it/10 claves$\T1/cmr
 /m/n/10 ), obtener($\OML/cmm/m/it/10 titulos$\T1/cmr/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 322--322
+Underfull \hbox (badness 10000) in paragraph at lines 334--334
 \T1/cmr/m/n/10 dameUno($\OML/cmm/m/it/10 claves$\T1/cmr/m/n/10 )) $\OMS/cmsy/m/
 n/10 [$ \T1/cmr/m/n/10 prome-sasACon-j-Con-Claves(sinUno(claves),
  []
 
 
-Overfull \hbox (13.89026pt too wide) in paragraph at lines 322--322
+Overfull \hbox (13.89026pt too wide) in paragraph at lines 334--334
 []\T1/cmr/m/n/10 promesasAConjConClaves($\OML/cmm/m/it/10 claves$\T1/cmr/m/n/10
  , $\OML/cmm/m/it/10 titulos$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
@@ -1097,38 +1108,28 @@ Overfull \hbox (13.89026pt too wide) in paragraph at lines 322--322
 Missing character: There is no í in font cmr10!
 Missing character: There is no í in font cmr10!
 
-Overfull \hbox (13.89026pt too wide) in paragraph at lines 328--328
+Overfull \hbox (13.89026pt too wide) in paragraph at lines 340--340
 []\T1/cmr/m/n/10 generarPromesasTítulo($\OML/cmm/m/it/10 nomTit$\T1/cmr/m/n/10 
 , $\OML/cmm/m/it/10 info$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-Overfull \hbox (12.78053pt too wide) in paragraph at lines 333--333
+Overfull \hbox (12.78053pt too wide) in paragraph at lines 345--345
 []\T1/cmr/m/n/10 generarPromesasTítulo($\OML/cmm/m/it/10 nomTit$\T1/cmr/m/n/10 
 , $\OML/cmm/m/it/10 tipo$\T1/cmr/m/n/10 , $\OML/cmm/m/it/10 p$\T1/cmr/m/n/10 )|
  $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
-[8]
-Overfull \hbox (14.99998pt too wide) in paragraph at lines 338--338
+
+Overfull \hbox (14.99998pt too wide) in paragraph at lines 350--350
 []\T1/cmr/m/n/10 dameCantAcciones($\OML/cmm/m/it/10 nomTit$\T1/cmr/m/n/10 ,$\OM
 L/cmm/m/it/10 titulos$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
 
-Overfull \hbox (13.89026pt too wide) in paragraph at lines 343--343
+Overfull \hbox (13.89026pt too wide) in paragraph at lines 355--355
 []\T1/cmr/m/n/10 dameTítulos($\OML/cmm/m/it/10 c$\T1/cmr/m/n/10 , $\OML/cmm/m/i
 t/10 clientes$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
- []
-
-
-Underfull \hbox (badness 10000) detected at line 360
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 347--361
-
  []
 
 
@@ -1137,61 +1138,51 @@ Underfull \hbox (badness 10000) detected at line 372
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 362--373
-
- []
-
-
-Underfull \hbox (badness 10000) detected at line 433
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 374--434
+Underfull \hbox (badness 10000) in paragraph at lines 359--373
 
  []
 
 [9]
+Underfull \hbox (badness 10000) detected at line 384
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 374--385
+
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 445
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 386--446
+
+ []
+
+[10]
 Overfull \vbox (46.45746pt too high) has occurred while \output is active []
 
 
-[10]
-Underfull \hbox (badness 10000) detected at line 444
+[11]
+Underfull \hbox (badness 10000) detected at line 456
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 435--445
+Underfull \hbox (badness 10000) in paragraph at lines 447--457
 
  []
 
 
-Underfull \hbox (badness 10000) detected at line 455
+Underfull \hbox (badness 10000) detected at line 467
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 446--456
-
- []
-
-
-Underfull \hbox (badness 10000) detected at line 486
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 458--487
-
- []
-
-
-Underfull \hbox (badness 10000) detected at line 492
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 488--493
+Underfull \hbox (badness 10000) in paragraph at lines 458--468
 
  []
 
@@ -1201,61 +1192,81 @@ Underfull \hbox (badness 10000) detected at line 498
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 494--499
+Underfull \hbox (badness 10000) in paragraph at lines 470--499
 
  []
 
 
-Underfull \hbox (badness 10000) detected at line 525
+Underfull \hbox (badness 10000) detected at line 504
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 500--526
+Underfull \hbox (badness 10000) in paragraph at lines 500--505
 
  []
 
-[11]
-Underfull \hbox (badness 10000) detected at line 533
+
+Underfull \hbox (badness 10000) detected at line 510
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 527--534
+Underfull \hbox (badness 10000) in paragraph at lines 506--511
 
  []
 
 
-Underfull \hbox (badness 10000) detected at line 540
+Underfull \hbox (badness 10000) detected at line 537
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 535--541
+Underfull \hbox (badness 10000) in paragraph at lines 512--538
 
  []
 
-
-Underfull \hbox (badness 10000) detected at line 547
+[12]
+Underfull \hbox (badness 10000) detected at line 545
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 542--548
+Underfull \hbox (badness 10000) in paragraph at lines 539--546
 
  []
 
 
-Underfull \hbox (badness 10000) detected at line 564
+Underfull \hbox (badness 10000) detected at line 552
 [][]
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 549--565
+Underfull \hbox (badness 10000) in paragraph at lines 547--553
 
  []
 
-) (./diccTitulos.tex [12] [13]
+
+Underfull \hbox (badness 10000) detected at line 559
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 554--560
+
+ []
+
+
+Underfull \hbox (badness 10000) detected at line 576
+[][]
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 561--577
+
+ []
+
+) (./diccTitulos.tex [13] [14]
 Underfull \hbox (badness 10000) in paragraph at lines 162--162
 
  []
@@ -1272,7 +1283,7 @@ Overfull \hbox (14.99998pt too wide) in paragraph at lines 171--171
 \OMS/cmsy/m/n/10 ^^Q$| [] 
  []
 
-[14]
+[15]
 Overfull \hbox (14.99998pt too wide) in paragraph at lines 179--179
 []\T1/cmr/m/n/10 Hoja?($\OML/cmm/m/it/10 e$\T1/cmr/m/n/10 ,$\OML/cmm/m/it/10 n$
 \T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^^Q$| [] 
@@ -1334,7 +1345,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 279--288
 
  []
 
-[15]
+[16]
 Underfull \hbox (badness 10000) detected at line 302
 [][]
  []
@@ -1394,7 +1405,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 363--369
 
  []
 
-[16]
+[17]
 Underfull \hbox (badness 10000) detected at line 375
 [][]
  []
@@ -1414,13 +1425,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 377--383
 
  []
 
-) (./diccClientes.tex [17]
+) (./diccClientes.tex [18]
 Overfull \hbox (14.99998pt too wide) in paragraph at lines 110--110
 []\T1/cmr/m/n/10 Rep($\OML/cmm/m/it/10 dc$\T1/cmr/m/n/10 )| $\OMS/cmsy/m/n/10 ^
 ^Q$| [] 
  []
 
-[18]
+[19]
 Overfull \hbox (13.89026pt too wide) in paragraph at lines 119--119
 []\T1/cmr/m/n/10 arregloAConjunto(arr, tamanio)| $\OMS/cmsy/m/n/10 ^^Q$| [] 
  []
@@ -1483,7 +1494,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 166--179
 
  []
 
-[19]
+[20]
 Underfull \hbox (badness 10000) detected at line 195
 [][]
  []
@@ -1553,15 +1564,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 232--237
 
  []
 
-) AED: lastpage setting LastPage [20] (./document.aux) ) 
+) AED: lastpage setting LastPage [21] (./document.aux) ) 
 Here is how much of TeX's memory you used:
- 8087 strings out of 495061
- 108027 string characters out of 1182622
- 228486 words of memory out of 3000000
- 11028 multiletter control sequences out of 15000+50000
+ 8089 strings out of 495061
+ 108049 string characters out of 1182622
+ 227486 words of memory out of 3000000
+ 11029 multiletter control sequences out of 15000+50000
  14122 words of font info for 38 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 38i,16n,43p,424b,534s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,16n,43p,424b,535s stack positions out of 5000i,500n,10000p,200000b,50000s
  </home/fernando/.texmf
 -var/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/fernando/.texmf-var/fon
 ts/pk/ljfour/jknappen/ec/eccc1000.600pk> </home/fernando/.texmf-var/fonts/pk/lj
@@ -1577,9 +1588,9 @@ public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
 nts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr5.
 pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/sha
 re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on document.pdf (20 pages, 268835 bytes).
+Output written on document.pdf (21 pages, 274473 bytes).
 PDF statistics:
- 643 PDF objects out of 1000 (max. 8388607)
- 72 named destinations out of 1000 (max. 500000)
+ 655 PDF objects out of 1000 (max. 8388607)
+ 73 named destinations out of 1000 (max. 500000)
  33 words of extra memory for PDF output out of 10000 (max. 10000000)
 

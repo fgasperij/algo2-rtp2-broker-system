@@ -11,3 +11,25 @@ Convenciones que adoptamos en todos los móduos:
     \end{Tupla}\\ 
 después en los algoritmos cada vez que usemos una tupla con esos tipos usamos el alias tuplaEspecial y nos referimos a sus campos por campoEspecial$_1$, campoEspecial$_2$ y campoEspecial$_3$.
 \end{itemize}
+
+\textbf{Correcciones realizadas:}\\
+\\
+Diccionario Clientes
+\begin{itemize}
+	\item (estructura) d.claves dejó de ser un arregloOrdenado para ser un arregloDimensionable.
+	\item (estructura) agregamos un dc.tamanio que nos dice cuántas claves hay definidas en el diccionario. Esto es necesario porque para asegurar que obtener toma O(log n) necesitamos saber exactamente dónde están las claves en el arreglo. En este caso estarán en las primeras [0, dc.tamanio) posiciones.
+	\item (invariante) agregamos la condición de que d.claves debe estar ordenado.
+	\item (invariante) agregamos el invariante escrito en lenguaje coloquial.
+	\item (algoritmos) la búsqueda binaria se realiza en el mismo obtener del diccionario.
+\end{itemize}
+Diccionario Títulos
+\begin{itemize}
+	\item (estructura) sacamos la lista de significados del diccionario.
+	\item (estructura) cambiamos la estructura del iterador porque ahora sólo guardamos una lista de claves y la de significados no.
+	\item (invariante) agregamos la restricción de que dos padres no pueden compartir un hijo.
+	\item (invariante) hicimos las modificaciones necesarias para que la nueva estructura de representación fuera consistente.
+	\item (algoritmos) corregimos el error de agregar claves repetidas al listado de claves lo cual hacía que el iterador recorra repetidos y las complejidades no se satisfacieran.
+	\item (algoritmos) el agregarAtrás(dc.claves, c) solo lo hacemos en los casos en los que la clave no estaba previamente definida.
+	\item (algoritmos) modificamos todos los algoritmos del iterador para que operen sobre la nueva estructura.
+	\item corregimos un error en la axiomatización de ObtDeEstruct, función auxiliar de la función de abstracción, que consideraba el caso en el que no estaba definida la clave que recibía y nunca era llamada de esa forma.
+\end{itemize}

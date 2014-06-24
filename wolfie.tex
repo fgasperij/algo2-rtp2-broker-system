@@ -160,6 +160,9 @@
  \begin{enumerate}
  	\item accionesDisponibles no puede ser mayor a maxAcciones.\\
     ($\forall nomTit:titulo$) (def?($nomTit$, $w$.$titulos$) $\Rightarrow$ cantidadMáximaAcciones($nomTit$, $w.titulos$) $\ge$\\ accionesDisponibles($nomTit$, $w.titulos$))
+    \item la racha actual no puede ser mayor a 0 si enAlza está en false\\
+    ($\forall nomTit:titulo$) (def?($nomTit$, $w$.$titulos$) $\Rightarrow$ $\neg$ enAlza($nomTit$, $w.titulos$) $\lor$\\ rachaActualPositiva($nomTit$, $w.titulos$))
+    
  \end{enumerate}
 \BlankLine
 Adentro de wolfieEstr.clientes:
@@ -186,7 +189,7 @@ promesasDe.actualizado $\Rightarrow$\\ esPermutacion(promesasALista(dameTítulos
  \end{enumerate}
 
   \Rep[wolfie][w]{
-  ($\forall nomTit:titulo$) (def?($nomTit$, $w$.$titulos$) $\Rightarrow$ cantidadMáximaAcciones($nomTit$, $w.titulos$) $\ge$ accionesDisponibles($nomTit$, $w.titulos$))
+  ($\forall nomTit:titulo$) (def?($nomTit$, $w$.$titulos$) $\Rightarrow$ cantidadMáximaAcciones($nomTit$, $w.titulos$) $\ge$ accionesDisponibles($nomTit$, $w.titulos$) $\land$ $\neg$ enAlza($nomTit$, $w.titulos$) $\lor$ rachaActualPositiva($nomTit$, $w.titulos$))
   $\land$
   ($\forall claveCliente:cliente$) (def?($claveCliente$, $w$.$clientes$) $\Rightarrow$ totalAcciones($claveCliente$, $w$.$clientes$) = sumatoriaCantidadAcciones(dameTítulos($claveCliente$, $w$.$clientes$))
   	$\land$
@@ -202,6 +205,16 @@ promesasDe.actualizado $\Rightarrow$\\ esPermutacion(promesasALista(dameTítulos
  
         
   }\mbox{}
+  
+ ~
+  
+  \tadOperacion{enAlza}{nomTit/string,titulos/dict({nt, infoTitulo})}{bool}{}
+  \tadAxioma{enAlza($t$,$clientes$)}{Obtener($nt$, $titulos$).enAlza}  
+  
+ ~
+  
+  \tadOperacion{rachaActualPositiva}{nomTit/string,titulos/dict({nt, infoTitulo})}{bool}{}
+  \tadAxioma{rachaActualPositiva($nt$,$titulos$)}{Obtener($nt$, $titulos$).rachaActual > 0}  
   
   ~
   

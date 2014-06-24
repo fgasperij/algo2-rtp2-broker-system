@@ -133,70 +133,37 @@
   \begin{Estructura}{diccTítulo($String$, $\alpha$)}[estr\_diccTítulo]
     \begin{Tupla}[estr\_diccTítulo]
       \tupItem{raíz}{estr\_nodo}
-      \tupItem{Claves}{lista($\texttt String$)}
-      \tupItem{alfas}{lista(punteros($\alpha$))}
+      \tupItem{claves}{lista(String)}
     \end{Tupla}
-   
+      
     \begin{Tupla}[estr\_nodo]
       \tupItem{significado}{puntero $(\alpha)$}
       \tupItem{hijos}{array[256] de puntero(estr\_nodo)}%
     \end{Tupla}
-  \end{Estructura}
-
-%	\begin{Tupla}[estr\_iter]
-%		\tupItem{clave}{STRING}%
-%		\tupItem{significado}{puntero $(\alpha)$}
-%   \end{Tupla}
+  \end{Estructura}  
 
  \textbf{Invariante de representación:}
  \begin{enumerate}
-% 	\item Sin nodos repetidos
-    \item Sin ciclos en el arbol
-    \item Las Hojas no pueden tener significado nulo
-    \item La cantidad de claves ingresadas en e.claves debe ser igual a la cantidad de significados válidos (distintos de NULL) del árbol Trie y a la cantidad de punteros ingresados en e.alfas
-    \item Las claves contenidas en $e$.claves deben estar definidas en el arbol Trie
-    \item Todos los punteros de significados válidos del arbol Trie deben estar definidos en $e$.alfas 
+ 	\item Dos nodos no pueden compartir un hijo
+    \item Sin ciclos en el árbol
+    \item Las hojas del árbol no pueden tener significado nulo
+    \item La cantidad de claves ingresadas en e.claves debe ser igual a la cantidad de significados válidos (distintos de NULL) del árbol Trie
+    \item Las claves contenidas en $e$.$claves$ deben estar definidas en el arbol Trie
  \end{enumerate}
 
 \end{Representacion}
 
 \Rep[estr\_diccTítulo][e]{ \\
     SinCiclos($e$.raíz, $\emptyset$) $\yluego$ \hfill 1. \\
-  %  NoHayRepetidos(NodoAsecu($e$.raíz)) $\land$ \hfill 2. \\
-    SignificadosHojasNotNull($e$.raíz) $\land$ \hfill 2. \\
-    \TipoVariable {Longitud($e$.Claves)} $\igobs$ \TipoVariable {Longitud($e$.alfas)} $\land$ \\
-    \TipoVariable {Longitud($e$.alfas)} $\igobs$ CantidadSignificados($e$.raíz) $\land$ \hfill 3. \\
-    ($\forall clave:String$) ((está?($clave$, $e$.claves)) $\Leftrightarrow$ definido?($clave$,$e$.raíz)  ) $\land$ \hfill 4.\\
-    ($\forall p: puntero(\alpha$) (está?($p$, $e$.alfas)) $\Rightarrow$ ($\exists\ clave: String$) está?($clave$,$e$.claves) $\land$ \\
-    \tab p = ObtDeEstruc($clave$, $e$.raíz))  \hfill 5.   \\ 
-   % ($\forall clave: String$ (está?($clave$, $e$.claves) $\Rightarrow$ ($\exists\ p: puntero(\alpha$)) está?($p$,$e$.alfas) $\land$ \\
-    %\tab p = ObtDeEstruc($clave$, $e$.raíz)) \hfill 5.b  \\ 
+    NoCompartenHijos($e$.raíz) $\yluego$ \hfill 1. \\
+    SignificadosHojasNotNull($e$.raíz) $\land$ \hfill 2. \\    
+    \TipoVariable {Longitud($e$.claves)} $\igobs$ CantSignificados($e$.raíz) $\land$ \hfill 3. \\
+    ($\forall clave:String$) ((está?($clave$, $e$.claves)) $\Leftrightarrow$ definido?($clave$,$e$.raíz)  )\hfill 4.\\
   }
-%Axiomatizacion del Rep
-%\tadOperacion{NodoAsecu}{estr\_nodo/e}{secu(estr\_nodo)}{SinCiclos($e$, $\emptyset$)}
-%\tadAxioma{NodoAsecu($e$)}{\secuencia{$e$} \& NodoAsecuHijos($e$,0)}
-
-%\tadOperacion{NodoAsecuHijos}{estr\_nodo/e,nat}{secu(estr\_nodo)}{SinCiclos($e$, $\emptyset$)}
-%\tadAxioma{NodoAsecuHijos($e$, $n$)}{
-%	{(\IF e.hijos[$n$] $\igobs$ NULL THEN \secuencia{}
-%      ELSE 
-%      	NodoAsecuHijos(*(e.hijos[$n$])) 
-%     FI)} \& \\
-%    {(\IF $n < $ 255 THEN NodoAsecuHijos($e$,$n +$ 1)
-%      ELSE
-%      	\secuencia{}
-%      FI)}     
-%     }
-
-%\tadOperacion{NohayRepetidos}{secu(estr\_nodo)}{bool}{}
-%\tadAxioma{NoHayRepetidos($sn$)}
-%{\IF vacía?($sn$) THEN true 
-%  ELSE 
-%	$\neg$(está?(prim($sn$), fin($sn$))) $\land$ NoHayRepetidos(fin($sn$))
-%  FI}
  ~
+
 \tadOperacion{SignificadoHojaNotNull}{estr\_nodo/e}{bool}{}
-\tadAxioma{SignificadoHojaNotNull}
+\tadAxioma{SignificadoHojaNotNull($e$)}
 {\IF Hoja?($e$, 0) THEN 
 	$\neg$(significado($e$)$\igobs$ NULL)
   ELSE
@@ -272,40 +239,25 @@ FI}
 \tadAxioma{ObtDeEstruc($c$,$n$)}
 {\IF vacía?($c$) THEN
 	n.significado
-ELSE
-	{\IF n.hijos[ORD(prim(c)] = NULL THEN NULL 
-    ELSE 
-    	ObtDeEstruc(fin($c$),$n$.hijos[ORD(prim($c$))]    
-    FI}
+ELSE		
+   	ObtDeEstruc(fin($c$),$n$.hijos[ORD(prim($c$))]    
 FI}
 
 %REPresentacion iterador
  \textbf{Representación del iterador:}\\ \tab
- El iterador del diccionario es simplemente un par de iteradores a las listas correspondientes.\\\tab Lo único que hay que pedir es que satisfaga el Rep de este par de listas.\\\tab Por implementación, alcanza con que sea unidireccional. 
+ El iterador del diccionario es simplemente un iterador a la lista de claves.\\\tab Lo único que hay que pedir es que satisfaga el Rep de esta lista.\\\tab Por implementación, alcanza con que sea unidireccional. 
  	\begin{Estructura}{itDiccTítulos($String$,$\alpha$)}[itDic]
     \begin{Tupla}[itDic]
 		\tupItem{claves}{itLista($String$)}
-		\tupItem{significados}{itLista($\alpha$)}%
     \end{Tupla}
  	\end{Estructura}
 
-%PREGUNTAR!!!!
 \Rep[itDic][it]{ \\
-	Rep(it.claves) $\land$ Rep(it.significados)
+	Rep(it.claves)
   }
-Abs : itDic $it$ $\longrightarrow$ itMod(tupla($String$,$\alpha$)) \hfill\{Rep($it$)\}\\ \hspace*{4mm}
-%Abs($it$) $\equiv$ CrearIt(Join(Anteriores(it.claves), Anteriores(it.significados)), \\\hspace*{38mm}Join(Siguientes(it.claves), Siguientes(it.significados)))
-Abs($it$) $\equiv$ CrearItMod(Join(Siguientes(it.claves), Siguientes(it.significados)))
+Abs : itDic $it$ $\longrightarrow$ itUni($String$) \hfill\{Rep($it$)\}\\ \hspace*{4mm}
 
-\tadAlinearAxiomas{Join($a$,$b$)}
-\tadOperacion{Join}{secu($String$) $a$, secu($\alpha$) $b$}{secu(tupla($String$,$\alpha$))}{long($a$) = long($b$)}
-\tadAxioma{Join($a$,$b$)}
-	{\IF vacía?(a) THEN 
-		<>
-	ELSE 
-		<prim(a), prim(b)> $\bullet$ Join(Fin($a$), Fin($b$))
-	FI}
-
+Abs($it$) $\equiv$ CrearItUni(Siguientes(it.claves)))
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %ALGORITMOS
@@ -338,17 +290,15 @@ Abs($it$) $\equiv$ CrearItMod(Join(Siguientes(it.claves), Siguientes(it.signific
 \textit{i}Definir(\In{c}{string}, \In{s}{$\alpha$}, \Inout{d}{estr\_diccTítulo}) $\longrightarrow$ res: estr\_dicTrie\\
 \hspace*{9mm}\Orden{O(|c|)}\\
 \begin{algorithm}[H]
-	AgregarAtrás(d.$Claves$, c) \tcp*{O(|c|)}
 	var $actual$ : \TipoVariable{puntero($estr\_nodo$)} $\leftarrow$ \&($d$.raíz) \tcp*{O( 1 )}
 	\For{var $i : nat\leftarrow 0$ \KwTo (Longitud($c$) - 1)\tcp*{O(|c|)}}{ 
 		\If{actual $\rightarrow$ hijos[ORD(c[i])] = NULL}{
+				AgregarAtrás(d.$Claves$, c) \tcp*{O(|c|)}
 			actual $\rightarrow$ hijos[ORD(c[i])] $\leftarrow$ $\&$(iNodoNuevo())
 		}
 		actual $\leftarrow$ (actual $\rightarrow$ hijos[ORD(c[i])])
 	}
 	actual $\rightarrow$ significado $\leftarrow \&$(Copiar($s$))\tcp*{O( 1 )} 
-	AgregarAtrás(d.$alfas$, actual $\rightarrow$ significado) \tcp*{O( 1 )}
-	%d.$\#$claves $\leftarrow$ d.$\#$claves + 1 
 \end{algorithm}
 
 %Obtener
@@ -407,7 +357,7 @@ Abs($it$) $\equiv$ CrearItMod(Join(Siguientes(it.claves), Siguientes(it.signific
 \hspace*{9mm}\Orden{O(1)}\\
 \begin{algorithm}[H]
 \BlankLine
-res $\leftarrow$ <claves:CrearIt($d$.claves), significados: CrearIt($d$.alfas)>
+res $\leftarrow$ claves:CrearIt($d$.claves)
 \end{algorithm}
 
 \textit{i}HaySiguiente?(in it: ItDicc($String$,$\alpha$)) $\longrightarrow$ res: bool\\
@@ -417,32 +367,18 @@ res $\leftarrow$ <claves:CrearIt($d$.claves), significados: CrearIt($d$.alfas)>
 res $\leftarrow$ HaySiguiente(it.claves)
 \end{algorithm}
 
-\textit{i}Siguiente(in it: ItDicc($String$,$\alpha$)) $\longrightarrow$ res: tupla($String$, $\alpha$)\\
-\hspace*{9mm}\Orden{O(1)}\\
-\begin{algorithm}[H]
-\BlankLine
-res $\leftarrow$ <Siguiente(it.claves), Siguiente(it.significados) >
-\end{algorithm}
-
-\textit{i}SiguienteClave(in it: ItDicc($String$,$\alpha$)) $\longrightarrow$ res: $String$\\
+\textit{i}Siguiente(in it: ItDicc($String$,$\alpha$)) $\longrightarrow$ res: $String$\\
 \hspace*{9mm}\Orden{O(1)}\\
 \begin{algorithm}[H]
 \BlankLine
 res $\leftarrow$ Siguiente(it.claves)
 \end{algorithm}
 
-\textit{i}SiguienteSignificado(in it: ItDicc($String$,$\alpha$)) $\longrightarrow$ res: puntero($\alpha$)\\
+\textit{i}Avanzar(in it: ItDicc($String$,$\alpha$)) $\longrightarrow$  res: ItDicc($String$)\\
 \hspace*{9mm}\Orden{O(1)}\\
 \begin{algorithm}[H]
 \BlankLine
-res $\leftarrow$ Siguiente(it.significados)
-\end{algorithm}
-
-\textit{i}Avanzar(in it: ItDicc($String$,$\alpha$)) $\longrightarrow$  res: ItDicc($String$,$\alpha$)\\
-\hspace*{9mm}\Orden{O(1)}\\
-\begin{algorithm}[H]
-\BlankLine
-res $\leftarrow$ <Avanzar(it.claves), Avanzar(it.significados) >
+res $\leftarrow$ Avanzar(it.claves)
 \end{algorithm}
 
 \end{Algoritmos}

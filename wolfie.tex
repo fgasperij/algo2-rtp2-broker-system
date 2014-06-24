@@ -107,6 +107,9 @@
       \tupItem{accionesDisponibles}{nat}%
       \tupItem{cotización}{nat}%
       \tupItem{enAlza}{bool}%
+      \tupItem{rachaMaxima}{nat}%
+      \tupItem{rachaActual}{nat}%
+      \tupItem{fluctuaciones}{nat}%
     \end{Tupla}
 
     \begin{Tupla}[infoCliente]    
@@ -361,7 +364,10 @@ itConj itClientes = crearIt(clientes)\tcp*{O( 1 )}
 \BlankLine
 nat accionesDisponibles $\leftarrow$ maxAcciones\\
 bool enAlza $\leftarrow$ true\\
-tupla infoTítulo $\leftarrow$ <maxAcciones, accionesDisponibles, cot, enAlza>\\
+nat rachaActual $\leftarrow$ 0\\
+nat rachaMaxima $\leftarrow$ 0\\
+nat fluctuaciones $\leftarrow$ 0\\
+tupla infoTítulo $\leftarrow$ <maxAcciones, accionesDisponibles, cot, enAlza, rachaActual, rachaMaxima, fluctuaciones>\\
 Definir(nomTit, infoTítulo, w.títulos)\tcp*{O( |nomTit| )}
 \end{algorithm}
 
@@ -371,8 +377,17 @@ Definir(nomTit, infoTítulo, w.títulos)\tcp*{O( |nomTit| )}
 w.promesasDe.actualizado $\leftarrow$ false\\
 \BlankLine
 tupla infoTítulo $\leftarrow$ Obtener(w.títulos, nomTit)\tcp*{O( |nomTit| )}
-\If{infoTítulo.cotización > cot}{infoTítulo.enAlza $\leftarrow$ false}
-\Else{infoTítulo.enAlza $\leftarrow$ true}
+\If{infoTítulo.cotización > cot}{
+	{\If{infoTitulo.enAlza}{infoTitulo.fluctuaciones $\leftarrow$ infoTitulo.fluctuaciones + 1}}
+	infoTítulo.enAlza $\leftarrow$ false
+	infoTítulo.rachaActual $\leftarrow$ 0\\
+}
+\Else{
+	{\If{!infoTitulo.enAlza}{infoTitulo.fluctuaciones $\leftarrow$ infoTitulo.fluctuaciones + 1}}
+	infoTítulo.enAlza $\leftarrow$ true\\
+	infoTítulo.rachaActual $\leftarrow$ infoTítulo.rachaActual + 1\\
+	{\If{infoTítulo.rachaActual > infoTitulo.rachaMaxima}{infoTitulo.rachaMaxima $\leftarrow$ infoTitulo.rachaActual}}	
+}
 infoTítulo.cotización $\leftarrow$ cot\\
 \BlankLine
 // ejecutamos todas las promesas de venta\\
@@ -390,7 +405,7 @@ itDiccClientes itClientes $\leftarrow$ crearIt(w.clientes)\\
     }
 }
 \BlankLine
-//generamos un arregloOrdenado de tuplas <cliente, totalAcciones> ordenado por la segunda\\ 
+//generamos un arreglo de tuplas <cliente, totalAcciones> ordenado por la segunda\\ 
 //componente de las tuplas\\
 itDiccClientes itClientes $\leftarrow$ crearIt(w.clientes)\tcp*{O( 1 )}
 nat cantidadClientes $\leftarrow$ \#claves(w.clientes)\\
@@ -522,6 +537,30 @@ res $\leftarrow$ infoTítulo.cantidadAcciones\\
 \BlankLine
 tupla infoTítulo $\leftarrow$ obtener(w.títulos, nomTit)\\
 res $\leftarrow$ infoTítulo.enAlza)\\
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}maximaRacha(\In{w}{wolfie}, \In{nomTit}{string}) $\longrightarrow$ res: nat\\
+\BlankLine
+tupla infoTítulo $\leftarrow$ obtener(w.títulos, nomTit)\\
+res $\leftarrow$ infoTítulo.maximaRacha\\
+\end{algorithm}
+
+\begin{algorithm}[H]
+\textit{i}tituloMasVolatil(\In{w}{wolfie}, \In{nomTit}{string}) $\longrightarrow$ res: nomTit\\
+\BlankLine
+itTitulos $\leftarrow$ crearIt(w.titulos)\\
+nomTitMaximo $\leftarrow$ siguiente(itTitulos)\\
+maxFluctuacion $\leftarrow$ Obtener(nomTitMaximo, w.titulos).fluctuaciones\\
+avanzar(itTitulos)\\
+\While{haySiguiente?(itTitulos)}{
+	flucActual $\leftarrow$ Obtener(siguiente(itTitulos), w.titulos).fluctuaciones\\
+	\If{ flucActual > maxFluctuacion}{
+		maxFluctuacion $\leftarrow$ flucActual\\
+		nomTitMaximo $\leftarrow$ siguiente(itTitulos)\\
+	}
+}
+res $\leftarrow$ nomTitMaximo\\
 \end{algorithm}
 
 
